@@ -9,7 +9,6 @@ const blog = defineCollection({
       title: z.string(),
       date: z.coerce.date(),
       category: z.string(),
-      tags: z.array(z.string()).optional(),
       cover: image().optional(), // image() helper → 빌드 시 최적화·검증
     }),
 });

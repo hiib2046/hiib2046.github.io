@@ -1,8 +1,7 @@
 ---
 title: AI가 실행을 가져간 자리에
 date: 2026-06-05
-category: AI·테크
-tags: [에이전트, 의도]
+category: AI
 cover: ./cover.jpg
 ---
 
