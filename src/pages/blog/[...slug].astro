@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  // post.id = 폴더명(한글 slug). Astro가 URL 인코딩 처리.
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<BaseLayout title={post.data.title} activeCategory={post.data.category}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">
+      {post.data.date.toLocaleDateString('ko-KR')} · {post.data.category}
+      {
+        post.data.tags && post.data.tags.length > 0 && (
+          <> · {post.data.tags.join(', ')}</>
+        )
+      }
+    </p>
+    <Content />
+  </article>
+</BaseLayout>

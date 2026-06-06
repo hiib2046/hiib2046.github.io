@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const categories = [...new Set(posts.map((p) => p.data.category))];
+  return categories.map((category) => ({
+    params: { category },
+    props: {
+      category,
+      posts: posts
+        .filter((p) => p.data.category === category)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { category, posts } = Astro.props;
+---
+<BaseLayout title={category} activeCategory={category}>
+  <h1>{category}</h1>
+  {
+    posts.map((post) => (
+      <article class="post-card">
+        <a href={`/blog/${post.id}/`}>
+          <h2>{post.data.title}</h2>
+        </a>
+        <p class="post-meta">{post.data.date.toLocaleDateString('ko-KR')}</p>
+      </article>
+    ))
+  }
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSortedPosts } from '../lib/posts';
+
+const posts = await getSortedPosts();
+---
+<BaseLayout title="ATELIER">
+  <h1>글</h1>
+  {
+    posts.map((post) => (
+      <article class="post-card">
+        <a href={`/blog/${post.id}/`}>
+          <h2>{post.data.title}</h2>
+        </a>
+        <p class="post-meta">
+          {post.data.date.toLocaleDateString('ko-KR')} · {post.data.category}
+        </p>
+      </article>
+    ))
+  }
+</BaseLayout>

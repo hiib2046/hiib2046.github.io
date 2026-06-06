@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import { getCategories } from '../lib/posts';
+
+interface Props {
+  title: string;
+  activeCategory?: string;
+}
+const { title, activeCategory } = Astro.props;
+const categories = await getCategories();
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="alternate" type="application/rss+xml" title="ATELIER" href="/rss.xml" />
+    <script is:inline>
+      // FOUC 방지: 페인트 전에 저장된 테마를 즉시 html[data-theme]에 적용
+      const t = localStorage.getItem('theme') || 'light';
+      document.documentElement.dataset.theme = t;
+    </script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <a class="logo" href="/">ATELIER</a>
+        <p class="intro">AI가 실행을 가져간 자리에</p>
+        <nav class="cats">
+          {
+            categories.map((c) => (
+              <a
+                href={`/category/${encodeURIComponent(c)}/`}
+                class={c === activeCategory ? 'cat active' : 'cat'}
+              >
+                {c}
+              </a>
+            ))
+          }
+        </nav>
+        <button id="theme-toggle" class="toggle" type="button">다크모드</button>
+      </aside>
+      <main class="content">
+        <slot />
+      </main>
+    </div>
+    <script>
+      // 토글: 현재 테마를 뒤집어 html[data-theme]와 localStorage에 반영(새로고침에도 유지)
+      const btn = document.getElementById('theme-toggle');
+      btn?.addEventListener('click', () => {
+        const next =
+          document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+      });
+    </script>
+  </body>
+</html>
