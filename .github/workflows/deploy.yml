@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@v6
       - name: Install, build, and upload your site
         uses: withastro/action@v6
+        env:
+          BLOG_PROTECT_PASSWORD: ${{ secrets.BLOG_PROTECT_PASSWORD }}
 
   deploy:
     needs: build

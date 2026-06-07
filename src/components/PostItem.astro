@@ -1,0 +1,46 @@
+---
+import type { Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+
+const dateStr = post.data.date.toLocaleDateString('ko-KR', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+const cover = post.data.cover;
+// 잠금 글: 발췌·썸네일을 내보내지 않는다(본문 일부라도 새면 안 됨)
+const isLocked = post.data.protected === true;
+// 설명: frontmatter에 없으면 본문 앞부분에서 마크업 기호를 걷어내 발췌
+const description = isLocked
+  ? ''
+  : post.data.description ||
+    (post.body ? post.body.replace(/[#*_\-\n\r`[\]()]/g, ' ').trim().substring(0, 130) + '...' : '');
+
+// 분류명: 폴더 경로에서 도출하고 정렬용 zz- 접두어 제거
+const parts = post.id.split('/');
+const rawCategory = post.data.category || (parts.length > 1 ? parts[parts.length - 2] : '');
+const category = rawCategory.replace(/^zz-/, '');
+---
+<a class="post-item" href={`/blog/${post.id}/`}>
+  <div class="post-item-text">
+    <h3 class="post-item-title">
+      {isLocked && <span class="lock-mark" aria-label="비공개">🔒</span>}
+      {post.data.title}
+    </h3>
+    {description && <p class="post-item-desc">{description}</p>}
+    <div class="post-item-meta">
+      <span>{category || 'ESSAY'}</span>
+      <span class="sep">·</span>
+      <span>{dateStr}</span>
+    </div>
+  </div>
+  {!isLocked && cover && (
+    <div class="post-item-thumb">
+      <img src={cover.src} alt={post.data.title} loading="lazy" />
+    </div>
+  )}
+</a>

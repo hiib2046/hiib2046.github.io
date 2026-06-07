@@ -1,0 +1,79 @@
+---
+import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryBody from '../../components/CategoryBody.astro';
+import { buildTree, findNode } from '../../lib/tree';
+import type { CatNode } from '../../lib/tree';
+import { encryptHtml } from '../../lib/encrypt';
+import { isCategoryLocked } from '../../lib/locked';
+
+// 트리의 모든 분류 노드를 하나의 라우트(/category/<경로>/)로 만든다
+export async function getStaticPaths() {
+  const root = await buildTree();
+  const paths: { params: { path: string }; props: { pathArr: string[] } }[] = [];
+  function walk(node: CatNode) {
+    if (node.path.length) {
+      paths.push({ params: { path: node.path.join('/') }, props: { pathArr: node.path } });
+    }
+    for (const c of node.children.values()) walk(c);
+  }
+  walk(root);
+  return paths;
+}
+
+const { pathArr } = Astro.props;
+const root = await buildTree();
+const node = findNode(root, pathArr)!;
+const subs = [...node.children.values()];
+const posts = [...node.posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 잠긴 카테고리: 본문(하위 카드 + 글 목록) 전체를 빌드 시점에 암호화한다(목록조차 평문으로 남기지 않음).
+const locked = isCategoryLocked(pathArr);
+let enc = null;
+if (locked) {
+  const password = import.meta.env.BLOG_PROTECT_PASSWORD;
+  if (!password) {
+    throw new Error(
+      `[잠금 카테고리] "${pathArr.join('/')}" 를 암호화하려면 BLOG_PROTECT_PASSWORD 가 필요합니다. ` +
+        `로컬은 .env, 배포는 GitHub Actions Secret 에 설정하세요.`,
+    );
+  }
+  const container = await AstroContainer.create();
+  const html = await container.renderToString(CategoryBody, { props: { subs, posts } });
+  enc = encryptHtml(html, password);
+}
+---
+<BaseLayout title={node.name.replace(/^zz-/, '')} activeCategory={pathArr[0]}>
+  <div class="cat-head">
+    <h1 class="cat-title">{node.name.replace(/^zz-/, '')}</h1>
+  </div>
+  {
+    locked ? (
+      <div class="locked" data-salt={enc!.salt} data-iv={enc!.iv} data-payload={enc!.data}>
+        <div class="lock-gate">
+          <p class="lock-icon">🔒</p>
+          <p class="lock-msg">비공개 분류입니다. 비밀번호를 입력하면 열립니다.</p>
+          <form class="lock-form">
+            <input
+              type="password"
+              class="lock-input"
+              placeholder="비밀번호"
+              autocomplete="off"
+              aria-label="비밀번호"
+            />
+            <button type="submit" class="lock-btn">열기</button>
+          </form>
+          <p class="lock-error" hidden>비밀번호가 올바르지 않습니다.</p>
+        </div>
+        <div class="lock-content" />
+      </div>
+    ) : (
+      <CategoryBody subs={subs} posts={posts} />
+    )
+  }
+</BaseLayout>
+
+<script>
+  import { initLockGate } from '../../scripts/lock-gate';
+  initLockGate();
+</script>

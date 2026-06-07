@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# playwright mcp 산출(임시 스크린샷·스냅샷)
+.playwright-mcp/

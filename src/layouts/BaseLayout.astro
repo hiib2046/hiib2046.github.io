@@ -1,13 +1,14 @@
 ---
 import '../styles/global.css';
-import { getCategories } from '../lib/posts';
+import { topCategories } from '../lib/tree';
 
 interface Props {
   title: string;
   activeCategory?: string;
+  isList?: boolean;
 }
-const { title, activeCategory } = Astro.props;
-const categories = await getCategories();
+const { title, activeCategory, isList = false } = Astro.props;
+const categories = await topCategories();
 ---
 <!doctype html>
 <html lang="ko">
@@ -18,17 +19,20 @@ const categories = await getCategories();
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&family=Noto+Sans+KR:wght@350;700&display=swap"
       rel="stylesheet"
     />
     <link rel="alternate" type="application/rss+xml" title="ATELIER" href="/rss.xml" />
     <script is:inline>
-      // FOUC 방지: 페인트 전에 저장된 테마를 즉시 html[data-theme]에 적용
+      // FOUC 방지: 페인트 전에 저장된 테마·사이드바 상태를 즉시 html에 적용
       const t = localStorage.getItem('theme') || 'light';
       document.documentElement.dataset.theme = t;
+      const nav = localStorage.getItem('nav') || 'open';
+      document.documentElement.dataset.nav = nav;
     </script>
   </head>
   <body>
+    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="메뉴 열기/닫기">☰</button>
     <div class="layout">
       <aside class="sidebar">
         <a class="logo" href="/">ATELIER</a>
@@ -37,17 +41,17 @@ const categories = await getCategories();
           {
             categories.map((c) => (
               <a
-                href={`/category/${encodeURIComponent(c)}/`}
-                class={c === activeCategory ? 'cat active' : 'cat'}
+                href={`/category/${c.path.join('/')}/`}
+                class={c.name === activeCategory ? 'cat active' : 'cat'}
               >
-                {c}
+                {c.name.replace(/^zz-/, '')}
               </a>
             ))
           }
         </nav>
         <button id="theme-toggle" class="toggle" type="button">다크모드</button>
       </aside>
-      <main class="content">
+      <main class:list={['content', { 'list-content': isList }]}>
         <slot />
       </main>
     </div>
@@ -59,6 +63,15 @@ const categories = await getCategories();
           document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = next;
         localStorage.setItem('theme', next);
+      });
+
+      // 사이드바 접기/펴기 토글 (상태를 localStorage에 저장해 새로고침에도 유지)
+      const navBtn = document.getElementById('nav-toggle');
+      navBtn?.addEventListener('click', () => {
+        const next =
+          document.documentElement.dataset.nav === 'closed' ? 'open' : 'closed';
+        document.documentElement.dataset.nav = next;
+        localStorage.setItem('nav', next);
       });
     </script>
   </body>

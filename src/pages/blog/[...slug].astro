@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { encryptHtml } from '../../lib/encrypt';
+import { isPostLocked } from '../../lib/locked';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -13,13 +16,66 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const cover = post.data.cover;
+const dateStr = post.data.date.toLocaleDateString('ko-KR');
+
+// 잠금 글: 글 자체 표시(protected) 또는 잠긴 카테고리 소속이면 본문 HTML을 빌드 시점에 암호화한다.
+const isProtected = post.data.protected === true || isPostLocked(post.id);
+let enc = null;
+if (isProtected) {
+  const password = import.meta.env.BLOG_PROTECT_PASSWORD;
+  if (!password) {
+    throw new Error(
+      `[잠금 글] "${post.id}" 를 암호화하려면 BLOG_PROTECT_PASSWORD 가 필요합니다. ` +
+        `로컬은 .env, 배포는 GitHub Actions Secret 에 설정하세요.`,
+    );
+  }
+  const container = await AstroContainer.create();
+  const html = await container.renderToString(Content);
+  enc = encryptHtml(html, password);
+}
 ---
 <BaseLayout title={post.data.title} activeCategory={post.data.category}>
-  <article>
-    <h1>{post.data.title}</h1>
-    <p class="post-meta">
-      {post.data.date.toLocaleDateString('ko-KR')} · {post.data.category}
-    </p>
-    <Content />
-  </article>
+  <header
+    class={cover ? 'post-hero has-cover' : 'post-hero'}
+    style={cover
+      ? `background-image: linear-gradient(rgba(0,0,0,0.32), rgba(0,0,0,0.5)), url('${cover.src}')`
+      : undefined}
+  >
+    <div class="post-hero-inner">
+      <h1>{post.data.title}</h1>
+      <p class="post-meta">{dateStr}{post.data.category ? ` · ${post.data.category}` : ''}</p>
+    </div>
+  </header>
+  {
+    isProtected ? (
+      <article class="locked" data-salt={enc!.salt} data-iv={enc!.iv} data-payload={enc!.data}>
+        <div class="lock-gate">
+          <p class="lock-icon">🔒</p>
+          <p class="lock-msg">비공개 글입니다. 비밀번호를 입력하면 열립니다.</p>
+          <form class="lock-form">
+            <input
+              type="password"
+              class="lock-input"
+              placeholder="비밀번호"
+              autocomplete="off"
+              aria-label="비밀번호"
+            />
+            <button type="submit" class="lock-btn">열기</button>
+          </form>
+          <p class="lock-error" hidden>비밀번호가 올바르지 않습니다.</p>
+        </div>
+        <div class="lock-content" />
+      </article>
+    ) : (
+      <article>
+        <Content />
+      </article>
+    )
+  }
 </BaseLayout>
+
+<script>
+  import { initLockGate } from '../../scripts/lock-gate';
+  initLockGate();
+</script>

@@ -1,21 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getSortedPosts } from '../lib/posts';
+import CategoryCard from '../components/CategoryCard.astro';
+import { topCategories } from '../lib/tree';
 
-const posts = await getSortedPosts();
+const cats = await topCategories();
 ---
-<BaseLayout title="ATELIER">
-  <h1>글</h1>
-  {
-    posts.map((post) => (
-      <article class="post-card">
-        <a href={`/blog/${post.id}/`}>
-          <h2>{post.data.title}</h2>
-        </a>
-        <p class="post-meta">
-          {post.data.date.toLocaleDateString('ko-KR')} · {post.data.category}
-        </p>
-      </article>
-    ))
-  }
+<BaseLayout title="ATELIER" isList={true}>
+  <div class="cat-grid">
+    {cats.map((c) => <CategoryCard node={c} />)}
+  </div>
 </BaseLayout>

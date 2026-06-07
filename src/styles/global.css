@@ -5,21 +5,22 @@
   --gold: #b8893b;
   --border: #e6e0d6;
   --sidebar-w: 240px;
-  --read-w: 680px;
+  --read-w: 740px;
 }
 [data-theme='dark'] {
-  --bg: #17150f;
-  --fg: #ece7dd;
-  --muted: #9b9384;
-  --gold: #d6a85a;
-  --border: #2a2620;
+  --bg: #1a1a1a;
+  --fg: #e8e8e6;
+  --muted: #9a9a96;
+  --gold: #cfa75e;
+  --border: #2c2c2c;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 350;
   line-height: 1.8;
 }
 .layout { display: flex; min-height: 100vh; }
@@ -34,18 +35,274 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  transition: margin-left 0.25s ease;
 }
-.logo { font-size: 1.3rem; letter-spacing: 0.3em; font-weight: 700; color: var(--fg); text-decoration: none; }
+/* 접힘: 사이드바를 폭만큼 왼쪽으로 밀어 숨기고, 본문이 그 자리를 차지 */
+html[data-nav='closed'] .sidebar { margin-left: calc(-1 * var(--sidebar-w)); }
+/* 토글 버튼: 사이드바 바깥(좌상단)에 고정 — 닫아도 다시 열 수 있게 */
+.nav-toggle {
+  position: fixed; top: 0.7rem; left: 0.7rem; z-index: 20;
+  width: 2.2rem; height: 2.2rem; border-radius: 4px; cursor: pointer;
+  background: var(--bg); border: 1px solid var(--border); color: var(--fg);
+  font-size: 1rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo { font-family: 'Nanum Myeongjo', serif; font-size: 1.3rem; letter-spacing: 0.3em; font-weight: 700; color: var(--fg); text-decoration: none; }
 .intro { color: var(--muted); font-size: 0.9rem; margin: 0; }
 .cats { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1rem; }
 .cat { color: var(--muted); text-decoration: none; padding: 0.3rem 0.6rem; border-left: 3px solid transparent; }
 .cat.active { color: var(--fg); border-left-color: var(--gold); }
 .toggle { margin-top: auto; background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.5rem; cursor: pointer; border-radius: 4px; font-family: inherit; }
-.content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 3rem 2rem; }
+.content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 6rem 2rem; }
+.content.list-content { justify-content: center; min-height: calc(100vh - 12rem); }
 .content > * { width: 100%; max-width: var(--read-w); }
 a { color: var(--gold); }
-h1, h2, h3 { font-weight: 700; line-height: 1.4; }
+h1, h2, h3 { font-family: 'Nanum Myeongjo', serif; font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
 img { max-width: 100%; height: auto; }
-.post-card { border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
-.post-card a { color: var(--fg); text-decoration: none; }
-.post-meta { color: var(--muted); font-size: 0.85rem; }
+/* 본문 단락만 브런치 톤: 줄간격 2.0·자간 0.8px (날짜 .post-meta는 제외) */
+article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
+/* 글 상단 헤더: cover 유무와 무관하게 같은 양식(풀폭·중앙정렬·같은 높이).
+   cover 있으면 배경 이미지, 없으면 옅은 빈 배경 — 제목 위치는 동일하게 유지 */
+.content > .post-hero {
+  max-width: none;
+  width: calc(100% + 4rem);
+  margin: -3rem -2rem 2.5rem;   /* main의 상·좌·우 패딩을 상쇄해 풀폭+상단밀착 */
+  min-height: 360px;
+  background: transparent;      /* 빈 커버는 색 없이 본문 배경 그대로 */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;        /* 제목을 헤더 하단에 배치 */
+  justify-content: center;
+  text-align: center;
+}
+.post-hero-inner { width: 100%; max-width: var(--read-w); padding: 0 0 2.5rem; }
+/* 빈 커버(이미지 없음)는 헤더와 본문 경계가 안 보이므로 옅은 하단선으로 구분 */
+.post-hero:not(.has-cover) { border-bottom: 1px solid var(--border); }
+.post-hero-inner h1 { margin: 0 0 0.6rem; }
+/* 이미지 위에 글자가 얹힐 때만 흰색으로 */
+.post-hero.has-cover .post-hero-inner h1 { color: #fff; }
+.post-hero.has-cover .post-meta { color: rgba(255, 255, 255, 0.85); }
+/* 카테고리 드릴다운 화면 */
+.cat-head { margin-bottom: 1rem; }
+.crumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
+.crumb a { color: var(--muted); text-decoration: none; }
+.crumb a:hover { color: var(--gold); }
+.crumb .sep { margin: 0 0.4rem; opacity: 0.5; }
+.cat-title { font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: 2.1rem; margin: 0; letter-spacing: -0.01em; }
+.section-cap { font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; font-weight: 700; margin: 4rem 0 1.5rem; }
+/* 카드장 — 카드들이 가로로 정갈하게 나열되는 매거진 슬라이드 레이아웃 */
+.cat-grid {
+  display: flex;
+  gap: 0;
+  max-width: none;
+  width: calc(100% + 4rem);
+  margin: 0 -2rem;
+  overflow-x: auto;
+  padding: 1rem 0 2.5rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cat-grid::-webkit-scrollbar { display: none; }
+.cat-grid::before, .cat-grid::after {
+  content: '';
+  display: block;
+  flex: 0 0 calc(50% - 220px);
+}
+.blog-card {
+  flex: 0 0 440px;
+  height: 530px;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 3.2rem 2.5rem 2.8rem;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #f6f4ed;
+  border: none;
+  border-top: 1px solid #e8e4da;
+  border-bottom: 1px solid #e8e4da;
+  border-right: 1px solid #e8e4da;
+  border-radius: 0;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+}
+.cat-grid > a.blog-card:first-of-type { border-left: 1px solid #e8e4da; }
+[data-theme='dark'] .blog-card {
+  background: #161616;
+  border-top: 1px solid #262625;
+  border-bottom: 1px solid #262625;
+  border-right: 1px solid #262625;
+}
+[data-theme='dark'] .cat-grid > a.blog-card:first-of-type { border-left: 1px solid #262625; }
+/* 기본 표지(cover 없는 카드): 공통 기본 이미지 — 라이트/다크 분기 */
+.blog-card:not(.has-cover) {
+  background-image: url('/covers/default-cover-light.png');
+  background-size: cover;
+  background-position: center;
+}
+[data-theme='dark'] .blog-card:not(.has-cover) {
+  background-image: url('/covers/default-cover-dark.png');
+}
+.blog-card.has-cover { background-size: cover; background-position: center; border-left: none !important; }
+.blog-card.has-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.78) 100%);
+  z-index: 1;
+}
+.book-badge, .book-title, .book-meta { position: relative; z-index: 4; }
+.blog-card:not(.has-cover) .book-badge {
+  display: block;
+  width: 100%;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+[data-theme='dark'] .blog-card:not(.has-cover) .book-badge { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.book-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #b88e55;
+  text-transform: uppercase;
+}
+.blog-card.has-cover .book-badge { color: rgba(255, 255, 255, 0.75); }
+.book-title {
+  margin: 1.4rem 0 0;
+  font-family: 'Nanum Myeongjo', serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.55;
+  color: var(--fg);
+  word-break: keep-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.blog-card.has-cover .book-title { color: #fff; }
+.book-meta { margin-top: auto; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; }
+.blog-card.has-cover .book-meta { color: rgba(255, 255, 255, 0.85); }
+.blog-card:not(.has-cover) .book-meta::after {
+  content: '+';
+  float: right;
+  font-size: 0.95rem;
+  color: #b88e55;
+  opacity: 0.65;
+  font-weight: 300;
+  line-height: 1;
+}
+.post-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--read-w);
+  margin: 2.5rem 0 5rem;
+  border-top: 1px solid var(--border);
+}
+.post-item {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 2.2rem 0.5rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.post-item-text { flex: 1; display: flex; flex-direction: column; gap: 0.7rem; }
+.post-item-title {
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.45;
+  margin: 0;
+  word-break: keep-all;
+}
+.post-item-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 350;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 두 줄 제한 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.post-item-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 350;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+.post-item-meta .sep {
+  color: var(--border);
+  font-weight: 400;
+}
+
+/* 우측 썸네일 이미지 영역 (호버 시 크기 변화 모션 완전 제거) */
+.post-item-thumb {
+  width: 120px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.post-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 잠금 글 — 목록의 자물쇠 표시 */
+.lock-mark { font-size: 0.85em; margin-right: 0.35rem; opacity: 0.7; }
+
+/* 잠금 글 — 본문 자리의 비밀번호 입력 게이트 */
+.locked { min-height: 40vh; }
+.lock-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 4rem 1rem;
+}
+/* 통과 후 게이트 숨김 — display:flex 가 [hidden] 기본값을 덮으므로 명시적으로 끈다 */
+.lock-gate[hidden] { display: none; }
+.lock-icon { font-size: 2rem; margin: 0; }
+.lock-msg { color: var(--muted); margin: 0; }
+.lock-form { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.lock-input {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.9rem;
+  min-width: 220px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+}
+.lock-input:focus { outline: none; border-color: var(--gold); }
+.lock-btn {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background: var(--gold);
+  color: #fff;
+  cursor: pointer;
+}
+.lock-error { color: #c0392b; font-size: 0.85rem; margin: 0; }

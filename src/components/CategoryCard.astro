@@ -1,0 +1,20 @@
+---
+import type { CatNode } from '../lib/tree';
+import { countPosts } from '../lib/tree';
+import { isCategoryLocked } from '../lib/locked';
+
+interface Props {
+  node: CatNode;
+}
+const { node } = Astro.props;
+
+const href = `/category/${node.path.join('/')}/`;
+const count = countPosts(node);
+const cleanName = node.name.replace(/^zz-/, '');
+const locked = isCategoryLocked(node.path);
+---
+<a class="blog-card" href={href} title={node.name}>
+  <span class="book-badge">{locked ? '🔒 비공개' : '분류'}</span>
+  <h3 class="book-title">{cleanName}</h3>
+  <span class="book-meta">{count}편의 글</span>
+</a>

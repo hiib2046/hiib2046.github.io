@@ -1,0 +1,30 @@
+---
+import CategoryCard from './CategoryCard.astro';
+import PostItem from './PostItem.astro';
+import type { CatNode } from '../lib/tree';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  subs: CatNode[];
+  posts: Post[];
+}
+const { subs, posts } = Astro.props;
+---
+{
+  subs.length > 0 && (
+    <div class="cat-grid">
+      {subs.map((s) => (
+        <CategoryCard node={s} />
+      ))}
+    </div>
+  )
+}
+{
+  posts.length > 0 && (
+    <div class="post-list">
+      {posts.map((post) => (
+        <PostItem post={post} />
+      ))}
+    </div>
+  )
+}
