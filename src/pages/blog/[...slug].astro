@@ -17,6 +17,11 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const cover = post.data.cover;
+const videoId = post.data.video_id;
+// 영상은 본문과 한 묶음으로 렌더 → 잠금 글이면 같이 암호화된다(정본 본문엔 iframe 없음).
+const embedHtml = videoId
+  ? `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
+  : '';
 const dateStr = post.data.date.toLocaleString('ko-KR', {
   year: 'numeric',
   month: '2-digit',
@@ -38,7 +43,7 @@ if (isProtected) {
     );
   }
   const container = await AstroContainer.create();
-  const html = await container.renderToString(Content);
+  const html = embedHtml + (await container.renderToString(Content));
   enc = encryptHtml(html, password);
 }
 ---
@@ -76,6 +81,7 @@ if (isProtected) {
       </article>
     ) : (
       <article>
+        <Fragment set:html={embedHtml} />
         <Content />
       </article>
     )
