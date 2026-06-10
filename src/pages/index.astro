@@ -5,8 +5,13 @@ import { topCategories } from '../lib/tree';
 
 const cats = await topCategories();
 ---
-<BaseLayout title="ATELIER" isList={true}>
-  <div class="cat-grid">
-    {cats.map((c) => <CategoryCard node={c} />)}
+<BaseLayout title="hiib2046's blog" isList={true}>
+  <div class="home">
+    <header class="home-head">
+      <h1 class="home-title">hiib2046's blog</h1>
+    </header>
+    <div class="home-grid">
+      {cats.map((c) => <CategoryCard node={c} />)}
+    </div>
   </div>
 </BaseLayout>
