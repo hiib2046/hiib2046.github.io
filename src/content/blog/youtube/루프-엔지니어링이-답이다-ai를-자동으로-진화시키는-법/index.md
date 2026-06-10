@@ -1,10 +1,9 @@
 ---
 title: "루프 엔지니어링이 답이다: AI를 자동으로 진화시키는 법"
 date: 2026-06-09T15:00:00+09:00
+video_id: GlR5I1wFWpM
+kind: analytical
 ---
-
-<div class="video-embed"><iframe src="https://www.youtube.com/embed/GlR5I1wFWpM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-
 영상은 작은 자랑으로 시작한다. 내가 만든 AI 스킬이 내가 자는 동안 혼자 더 똑똑해진다고. 마법처럼 들리지만 마법이 아니라고 그는 곧바로 못을 박는다. 비밀은 딱 하나, 루프다. AI가 스스로 도는 순환 하나만 제대로 설계해 두면 그 다음부터는 알아서 좋아진다는 것이다. 그는 이걸 "루프 엔지니어링"이라고 부른다.
 
 이름은 거창하지만 출발점은 우리가 매일 겪는 짜증이다. 거기서부터 따라가 보자.

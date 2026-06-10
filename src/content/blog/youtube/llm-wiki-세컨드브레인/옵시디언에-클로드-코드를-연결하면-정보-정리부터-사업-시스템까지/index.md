@@ -1,10 +1,9 @@
 ---
 title: "옵시디언에 클로드 코드를 연결하면: 정보 정리부터 사업 시스템까지"
 date: 2026-06-10T17:00:00+09:00
+video_id: OVilj8E2NnM
+kind: analytical
 ---
-
-<div class="video-embed"><iframe src="https://www.youtube.com/embed/OVilj8E2NnM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-
 정보를 모으는 일은 누구나 한다. 유튜브 영상을 보고, 강의를 결제하고, 책에서 좋았던 문장을 옮겨 적는다. 문제는 그 다음이다. 태오는 영상 첫머리에서 많은 사람이 공감할 법한 막막함을 그대로 짚는다. "정보를 모으기만 하고 정작 내 사업에는 적용 안 되는 느낌." 책을 읽었는데 무엇을 적용해야 할지 모르고, 강의는 들었는데 어디서부터 시작해야 할지 모른다. 하는 건 많은데 정작 내 사업은 안 굴러간다.
 
 그가 내린 진단은 단순하지만 날카롭다. **도구를 잘 쓰는 것과 그 도구를 사업에 잘 활용하는 것은 완전히 다른 일이다.** 이 영상은 옵시디언(Obsidian)과 클로드 코드(Claude Code)를 연결하는 방법을 보여주지만, 진짜 주제는 도구가 아니라 정보를 자기 사업으로 흘려보내는 시스템이다.

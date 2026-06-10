@@ -1,10 +1,9 @@
 ---
 title: "AI로 관리하는 노션 세컨드 브레인 사용법 (ft. 릴리스 AI + 템플릿)"
 date: 2026-06-10T13:00:00+09:00
+video_id: B3aEn9rY-po
+kind: analytical
 ---
-
-<div class="video-embed"><iframe src="https://www.youtube.com/embed/B3aEn9rY-po" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-
 예전에는 포털에서 찾던 걸 유튜브에서 찾다가, 이제는 AI에게 묻는다. 테드의노트 채널의 화자는 이 변화를 짚으며 한 가지를 덧붙인다. 정보를 찾는 속도는 점점 빨라졌는데, 정작 그 정보를 내 것으로 만드는 방법은 별로 달라지지 않았다는 것이다. 그렇게 빠르게 긁어모은 정보가 정말 내 머릿속에 남고 있는가.
 
 ## 수집은 지식이 아니다

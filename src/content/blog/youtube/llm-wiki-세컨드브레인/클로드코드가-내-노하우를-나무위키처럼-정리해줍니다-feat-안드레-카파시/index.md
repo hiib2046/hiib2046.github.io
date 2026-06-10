@@ -1,10 +1,9 @@
 ---
 title: "클로드코드가 내 노하우를 나무위키처럼 정리해줍니다 (feat. 안드레 카파시)"
 date: 2026-06-10T15:00:00+09:00
+video_id: wXc7-vFSd5U
+kind: analytical
 ---
-
-<div class="video-embed"><iframe src="https://www.youtube.com/embed/wXc7-vFSd5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-
 업무하면서 쌓인 경험, 책을 읽고 배운 점, 업계 동향을 조사하며 느낀 점. 이런 것들이 다 내 머릿속에만 있다. 그래서 AI한테 뭘 물어볼 때마다 매번 처음부터 내 상황을 설명해줘야 한다. "나는 이런 일을 하고 있고, 이런 맥락이 있고…" 이 설명을 어제도 했고 그제도 했다.
 
 영상 속 화자인 시민개발자 구씨가 던지는 질문은 여기서 시작한다. 내가 터득한 노하우를 어딘가에 저장해두고, 그걸 AI한테 통째로 주입해서 쓸 수는 없을까. 그가 이번에 소개하는 건 그 저장소를 사람이 아니라 AI가 직접 만들어주는 방식이다. 우리는 자료만 던져놓고, 정리는 AI한테 맡긴다.
