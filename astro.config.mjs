@@ -5,4 +5,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://hiib2046.github.io',
   integrations: [sitemap()],
+  // 코드블록은 다크 테마(남색) 한 벌로 칠한다. 종이톤 본문과 대비돼 코드 영역이 또렷하다.
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+    },
+  },
 });

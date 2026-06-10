@@ -6,6 +6,7 @@ import { buildTree, findNode } from '../../lib/tree';
 import type { CatNode } from '../../lib/tree';
 import { encryptHtml } from '../../lib/encrypt';
 import { isCategoryLocked } from '../../lib/locked';
+import { categoryDisplayName } from '../../lib/category-names';
 
 // 트리의 모든 분류 노드를 하나의 라우트(/category/<경로>/)로 만든다
 export async function getStaticPaths() {
@@ -43,9 +44,9 @@ if (locked) {
   enc = encryptHtml(html, password);
 }
 ---
-<BaseLayout title={node.name.replace(/^zz-/, '')} activeCategory={pathArr[0]}>
+<BaseLayout title={categoryDisplayName(node.name)} activeCategory={pathArr[0]}>
   <div class="cat-head">
-    <h1 class="cat-title">{node.name.replace(/^zz-/, '')}</h1>
+    <h1 class="cat-title">{categoryDisplayName(node.name)}</h1>
   </div>
   {
     locked ? (
@@ -75,5 +76,9 @@ if (locked) {
 
 <script>
   import { initLockGate } from '../../scripts/lock-gate';
+  import { initCatGrids } from '../../scripts/cat-grid';
   initLockGate();
+  initCatGrids(); // 잠기지 않은 카테고리: 페이지 로드 시 바로 카드장 초기화
+  // 잠긴 카테고리: 비번 통과로 카드장이 주입된 뒤 초기화
+  document.addEventListener('lock:content-loaded', () => initCatGrids());
 </script>

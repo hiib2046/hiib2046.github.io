@@ -12,10 +12,14 @@ const { subs, posts } = Astro.props;
 ---
 {
   subs.length > 0 && (
-    <div class="cat-grid">
-      {subs.map((s) => (
-        <CategoryCard node={s} />
-      ))}
+    <div class="cat-grid-wrap">
+      <button class="cat-nav cat-nav-prev" type="button" aria-label="이전 카드" hidden>‹</button>
+      <div class="cat-grid">
+        {subs.map((s) => (
+          <CategoryCard node={s} />
+        ))}
+      </div>
+      <button class="cat-nav cat-nav-next" type="button" aria-label="다음 카드" hidden>›</button>
     </div>
   )
 }

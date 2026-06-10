@@ -47,13 +47,13 @@ html[data-nav='closed'] .sidebar { margin-left: calc(-1 * var(--sidebar-w)); }
   font-size: 1rem; line-height: 1;
   display: flex; align-items: center; justify-content: center;
 }
-.logo { font-family: 'Nanum Myeongjo', serif; font-size: 1.3rem; letter-spacing: 0.3em; font-weight: 700; color: var(--fg); text-decoration: none; }
-.intro { color: var(--muted); font-size: 0.9rem; margin: 0; }
 .cats { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1rem; }
 .cat { color: var(--muted); text-decoration: none; padding: 0.3rem 0.6rem; border-left: 3px solid transparent; }
 .cat.active { color: var(--fg); border-left-color: var(--gold); }
 .toggle { margin-top: auto; background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.5rem; cursor: pointer; border-radius: 4px; font-family: inherit; }
-.content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 6rem 2rem; }
+/* min-width:0 — flex 아이템 기본값 min-width:auto면 카드장 같은 넓은 자식이 본문을 콘텐츠 폭만큼
+   부풀려 가로 스크롤을 죽인다. 0으로 눌러 본문을 제 폭에 가두고 넘침은 안쪽이 스크롤로 처리한다. */
+.content { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; padding: 6rem 2rem; }
 .content.list-content { justify-content: center; min-height: calc(100vh - 12rem); }
 .content > * { width: 100%; max-width: var(--read-w); }
 a { color: var(--gold); }
@@ -91,29 +91,58 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
 .crumb .sep { margin: 0 0.4rem; opacity: 0.5; }
 .cat-title { font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: 2.1rem; margin: 0; letter-spacing: -0.01em; }
 .section-cap { font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; font-weight: 700; margin: 4rem 0 1.5rem; }
-/* 카드장 — 카드들이 가로로 정갈하게 나열되는 매거진 슬라이드 레이아웃 */
-.cat-grid {
-  display: flex;
-  gap: 0;
+/* 카드장 — 카드들이 왼쪽부터 가로로 나열되는 매거진 슬라이드 레이아웃.
+   wrap이 풀폭(본문 패딩 상쇄)을 차지하고 좌우 화살표 버튼의 기준이 된다. */
+.cat-grid-wrap {
+  position: relative;
   max-width: none;
   width: calc(100% + 4rem);
   margin: 0 -2rem;
+}
+.cat-grid {
+  display: flex;
+  gap: 0;
+  width: 100%;
   overflow-x: auto;
-  padding: 1rem 0 2.5rem;
-  scroll-snap-type: x mandatory;
+  /* 왼쪽 패딩 = 본문 글 컬럼(--read-w) 왼쪽 가장자리까지의 여백. 첫 카드가 제목과 같은 세로선에서
+     시작하고 오른쪽으로만 흘러넘친다(브런치식). 화면이 좁으면 0으로 떨어져 풀블리드. */
+  padding: 1rem 0 2.5rem max(0px, calc(50% - var(--read-w) / 2));
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  cursor: grab;
 }
+/* 마우스로 끌어 스크롤하는 동안: 커서 표시 + 부드러운 스크롤 끔(드래그가 즉시 따라오게) */
+.cat-grid.dragging { cursor: grabbing; scroll-behavior: auto; }
 .cat-grid::-webkit-scrollbar { display: none; }
-.cat-grid::before, .cat-grid::after {
-  content: '';
-  display: block;
-  flex: 0 0 calc(50% - 220px);
+/* 카드장 좌우 넘김 화살표 — 카드가 화면을 넘칠 때만 표시(JS가 hidden 토글) */
+.cat-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
 }
+.cat-nav:hover { opacity: 1; }
+.cat-nav[hidden] { display: none; }
+.cat-nav-prev { left: 1.5rem; }
+.cat-nav-next { right: 1.5rem; }
 .blog-card {
   flex: 0 0 440px;
   height: 530px;
-  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   padding: 3.2rem 2.5rem 2.8rem;
@@ -187,15 +216,6 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
 .blog-card.has-cover .book-title { color: #fff; }
 .book-meta { margin-top: auto; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; }
 .blog-card.has-cover .book-meta { color: rgba(255, 255, 255, 0.85); }
-.blog-card:not(.has-cover) .book-meta::after {
-  content: '+';
-  float: right;
-  font-size: 0.95rem;
-  color: #b88e55;
-  opacity: 0.65;
-  font-weight: 300;
-  line-height: 1;
-}
 .post-list {
   display: flex;
   flex-direction: column;
@@ -271,6 +291,17 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
 
 /* 잠금 글 — 본문 자리의 비밀번호 입력 게이트 */
 .locked { min-height: 40vh; }
+/* 잠긴 카테고리(div.locked)는 본문(.content)처럼 풀폭 컬럼이 되어야, 통과 후 주입되는 카드장은
+   풀폭으로 흐르고 글목록은 740 중앙에 온다(잠기지 않은 카테고리와 동일). max-width 740에 갇히면
+   카드장이 글목록 폭에 맞춰 잘린다. 잠긴 글(article.locked)은 글 읽기폭 740 유지라 제외. */
+div.locked { max-width: none; width: 100%; }
+div.locked .lock-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
 .lock-gate {
   display: flex;
   flex-direction: column;
@@ -306,3 +337,79 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
   cursor: pointer;
 }
 .lock-error { color: #c0392b; font-size: 0.85rem; margin: 0; }
+
+/* ── 글 본문 요소 (표·인용·목록) — 에디토리얼 라인 톤 ── */
+
+/* 표: 라인형. 가로 구분선만 쓰고 세로줄·셀 배경은 두지 않는다(블로그의 카드·글목록과 같은 결).
+   헤더 아래만 진한 선으로 본문과 구분하고, 행 사이는 옅은 --border 선으로 가른다. */
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+}
+article th {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 2px solid var(--fg);
+}
+article td {
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+article tbody tr:last-child td { border-bottom: none; }
+
+/* 인용: 왼쪽 골드 라인 + 옅은 본문색. 배경·그림자 없이 톤을 유지한다. */
+article blockquote {
+  margin: 1.8rem 0;
+  padding: 0.2rem 0 0.2rem 1.3rem;
+  border-left: 3px solid var(--gold);
+  color: var(--muted);
+}
+
+/* 목록: 본문 단락과 같은 줄간격·자간으로 맞춰 흐름이 끊기지 않게 한다. */
+article ul, article ol { padding-left: 1.4rem; margin: 1.2rem 0; }
+article li { line-height: 2; letter-spacing: 0.8px; margin: 0.3rem 0; }
+
+/* 인라인 코드: 문장 속 `self`·`__init__` 같은 백틱 코드. 옅은 골드 틴트 배경으로
+   "여긴 코드"가 눈에 들어오게 하고, 모노 글꼴을 스택으로 고정해 OS마다 달라지지 않게 한다.
+   여러 줄 코드블록(pre 안)은 Shiki가 따로 칠하므로 :not(pre)로 제외한다. */
+article :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.88em;
+  background: rgba(184, 137, 59, 0.12);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+}
+
+/* 코드블록(여러 줄): 여백·모서리만 정리한다. 배경·신택스 색은 Shiki(github-light)가
+   인라인으로 칠하므로 여기서 배경색을 직접 주지 않는다(인라인 색을 덮으면 깨진다). */
+article pre {
+  padding: 1.3rem 1.5rem;
+  border-radius: 8px;
+  margin: 1.8rem 0;
+  overflow-x: auto;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+article pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+/* 유튜브 임베드: 16:9 반응형. yt 소스 글 맨 위에 publish가 삽입한다. */
+.video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 0 0 2.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

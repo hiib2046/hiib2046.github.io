@@ -1,5 +1,6 @@
 ---
 import type { Post } from '../lib/posts';
+import { categoryDisplayName } from '../lib/category-names';
 
 interface Props {
   post: Post;
@@ -14,16 +15,24 @@ const dateStr = post.data.date.toLocaleDateString('ko-KR', {
 const cover = post.data.cover;
 // 잠금 글: 발췌·썸네일을 내보내지 않는다(본문 일부라도 새면 안 됨)
 const isLocked = post.data.protected === true;
-// 설명: frontmatter에 없으면 본문 앞부분에서 마크업 기호를 걷어내 발췌
+// 설명: frontmatter에 없으면 본문 앞부분에서 마크업을 걷어내 발췌.
+// HTML 태그(맨 위 영상 임베드 iframe 등)를 먼저 지워야 발췌에 코드가 노출되지 않는다.
 const description = isLocked
   ? ''
   : post.data.description ||
-    (post.body ? post.body.replace(/[#*_\-\n\r`[\]()]/g, ' ').trim().substring(0, 130) + '...' : '');
+    (post.body
+      ? post.body
+          .replace(/<[^>]+>/g, ' ')
+          .replace(/[#*_\-\n\r`[\]()]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .substring(0, 130) + '...'
+      : '');
 
 // 분류명: 폴더 경로에서 도출하고 정렬용 zz- 접두어 제거
 const parts = post.id.split('/');
 const rawCategory = post.data.category || (parts.length > 1 ? parts[parts.length - 2] : '');
-const category = rawCategory.replace(/^zz-/, '');
+const category = categoryDisplayName(rawCategory);
 ---
 <a class="post-item" href={`/blog/${post.id}/`}>
   <div class="post-item-text">

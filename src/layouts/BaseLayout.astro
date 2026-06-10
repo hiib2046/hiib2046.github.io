@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { topCategories } from '../lib/tree';
+import { categoryDisplayName } from '../lib/category-names';
 
 interface Props {
   title: string;
@@ -35,8 +36,6 @@ const categories = await topCategories();
     <button id="nav-toggle" class="nav-toggle" type="button" aria-label="메뉴 열기/닫기">☰</button>
     <div class="layout">
       <aside class="sidebar">
-        <a class="logo" href="/">ATELIER</a>
-        <p class="intro">AI가 실행을 가져간 자리에</p>
         <nav class="cats">
           {
             categories.map((c) => (
@@ -44,7 +43,7 @@ const categories = await topCategories();
                 href={`/category/${c.path.join('/')}/`}
                 class={c.name === activeCategory ? 'cat active' : 'cat'}
               >
-                {c.name.replace(/^zz-/, '')}
+                {categoryDisplayName(c.name)}
               </a>
             ))
           }

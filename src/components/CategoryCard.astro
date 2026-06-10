@@ -2,6 +2,7 @@
 import type { CatNode } from '../lib/tree';
 import { countPosts } from '../lib/tree';
 import { isCategoryLocked } from '../lib/locked';
+import { categoryDisplayName } from '../lib/category-names';
 
 interface Props {
   node: CatNode;
@@ -10,7 +11,7 @@ const { node } = Astro.props;
 
 const href = `/category/${node.path.join('/')}/`;
 const count = countPosts(node);
-const cleanName = node.name.replace(/^zz-/, '');
+const cleanName = categoryDisplayName(node.name);
 const locked = isCategoryLocked(node.path);
 ---
 <a class="blog-card" href={href} title={node.name}>

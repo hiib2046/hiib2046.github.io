@@ -46,6 +46,8 @@ export function initLockGate(): void {
       contentEl.innerHTML = html;
       gate.hidden = true;
       localStorage.setItem(STORE_KEY, pw); // 다른 잠긴 글·분류 자동 통과용
+      // 주입된 본문(카드장 등)에 대한 후처리 훅 — 카테고리 카드 화살표/드래그가 여기서 붙는다.
+      document.dispatchEvent(new CustomEvent('lock:content-loaded'));
     } catch {
       // 저장된 비번으로 자동 시도하다 실패한 경우엔 조용히 입력창만 남긴다.
       if (!fromSaved) errEl.hidden = false;

@@ -3,6 +3,8 @@ title: "\"가만히 있으면 도태되는 게임이에요\" — 뉴욕 컨설�
 date: 2026-06-09
 ---
 
+<div class="video-embed"><iframe src="https://www.youtube.com/embed/pj--iGoVCk8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
 8시 비행기를 타고 12시간이 걸렸다고 그는 말한다. 영상 속 화자는 현지 시각 오전 10시 57분에 도착해, 일단 호스텔에 짐만 풀어두기로 한다. 1박 12만 원짜리 도미토리, 14인실이나 12인실쯤 되는 방을 예약했는데 막상 어떨지는 모르겠다고 한다. 뉴욕 호텔값이 워낙 비싸서 이게 최선이었다고 그는 말한다. 조금만 더 걸으면 할렘가지만 컬럼비아 대학교가 근처라 안전하다고 들었다는 이유까지, 여행기의 전형적인 도입부다.
 
 ![공항 활주로가 창문 너머로 보이는 장면, 뉴욕행 비행 출발 맥락](./11_30.jpg)
