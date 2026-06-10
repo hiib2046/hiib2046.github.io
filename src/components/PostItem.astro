@@ -11,6 +11,7 @@ const dateStr = post.data.date.toLocaleDateString('ko-KR', {
   year: 'numeric',
   month: '2-digit',
   day: '2-digit',
+  timeZone: 'Asia/Seoul',
 });
 const cover = post.data.cover;
 // 잠금 글: 발췌·썸네일을 내보내지 않는다(본문 일부라도 새면 안 됨)

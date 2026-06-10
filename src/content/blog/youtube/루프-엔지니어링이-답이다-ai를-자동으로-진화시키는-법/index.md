@@ -1,6 +1,6 @@
 ---
 title: "루프 엔지니어링이 답이다: AI를 자동으로 진화시키는 법"
-date: 2026-06-09
+date: 2026-06-09T15:00:00+09:00
 ---
 
 <div class="video-embed"><iframe src="https://www.youtube.com/embed/GlR5I1wFWpM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>

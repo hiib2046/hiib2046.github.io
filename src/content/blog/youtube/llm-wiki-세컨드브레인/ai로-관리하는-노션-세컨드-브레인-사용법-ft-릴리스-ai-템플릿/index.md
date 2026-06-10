@@ -1,6 +1,6 @@
 ---
 title: "AI로 관리하는 노션 세컨드 브레인 사용법 (ft. 릴리스 AI + 템플릿)"
-date: 2026-06-10
+date: 2026-06-10T13:00:00+09:00
 ---
 
 <div class="video-embed"><iframe src="https://www.youtube.com/embed/B3aEn9rY-po" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>

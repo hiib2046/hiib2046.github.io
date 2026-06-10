@@ -1,6 +1,6 @@
 ---
 title: "\"가만히 있으면 도태되는 게임이에요\" — 뉴욕 컨설턴트가 생각하는 AI 시대 대비법"
-date: 2026-06-09
+date: 2026-06-09T12:00:00+09:00
 ---
 
 <div class="video-embed"><iframe src="https://www.youtube.com/embed/pj--iGoVCk8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>

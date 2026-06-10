@@ -24,6 +24,18 @@ const { subs, posts } = Astro.props;
   )
 }
 {
+  posts.length > 1 && (
+    <div class="sort-toggle">
+      <button class="sort-btn is-active" type="button" data-sort="newest">
+        최신순
+      </button>
+      <button class="sort-btn" type="button" data-sort="oldest">
+        오래된순
+      </button>
+    </div>
+  )
+}
+{
   posts.length > 0 && (
     <div class="post-list">
       {posts.map((post) => (

@@ -17,7 +17,14 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const cover = post.data.cover;
-const dateStr = post.data.date.toLocaleDateString('ko-KR');
+const dateStr = post.data.date.toLocaleString('ko-KR', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: 'Asia/Seoul',
+});
 
 // 잠금 글: 글 자체 표시(protected) 또는 잠긴 카테고리 소속이면 본문 HTML을 빌드 시점에 암호화한다.
 const isProtected = post.data.protected === true || isPostLocked(post.id);

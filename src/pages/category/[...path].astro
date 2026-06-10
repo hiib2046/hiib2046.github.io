@@ -77,8 +77,14 @@ if (locked) {
 <script>
   import { initLockGate } from '../../scripts/lock-gate';
   import { initCatGrids } from '../../scripts/cat-grid';
+  import { initSortToggles } from '../../scripts/sort-list';
   initLockGate();
-  initCatGrids(); // 잠기지 않은 카테고리: 페이지 로드 시 바로 카드장 초기화
-  // 잠긴 카테고리: 비번 통과로 카드장이 주입된 뒤 초기화
-  document.addEventListener('lock:content-loaded', () => initCatGrids());
+  // 잠기지 않은 카테고리: 페이지 로드 시 바로 카드장·정렬 토글 초기화
+  initCatGrids();
+  initSortToggles();
+  // 잠긴 카테고리: 비번 통과로 본문이 주입된 뒤 초기화
+  document.addEventListener('lock:content-loaded', () => {
+    initCatGrids();
+    initSortToggles();
+  });
 </script>

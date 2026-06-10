@@ -1,6 +1,6 @@
 ---
 title: "클로드코드가 내 노하우를 나무위키처럼 정리해줍니다 (feat. 안드레 카파시)"
-date: 2026-06-10
+date: 2026-06-10T15:00:00+09:00
 ---
 
 <div class="video-embed"><iframe src="https://www.youtube.com/embed/wXc7-vFSd5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>

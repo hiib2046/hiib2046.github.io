@@ -1,6 +1,6 @@
 ---
 title: "옵시디언에 클로드 코드를 연결하면: 정보 정리부터 사업 시스템까지"
-date: 2026-06-10
+date: 2026-06-10T17:00:00+09:00
 ---
 
 <div class="video-embed"><iframe src="https://www.youtube.com/embed/OVilj8E2NnM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>

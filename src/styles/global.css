@@ -145,6 +145,8 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
   height: 530px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 3.2rem 2.5rem 2.8rem;
   text-decoration: none;
   position: relative;
@@ -184,28 +186,22 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
   background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.78) 100%);
   z-index: 1;
 }
-.book-badge, .book-title, .book-meta { position: relative; z-index: 4; }
-.blog-card:not(.has-cover) .book-badge {
-  display: block;
-  width: 100%;
-  padding-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+.book-title, .book-meta, .book-lock { position: relative; z-index: 4; }
+.book-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.book-lock {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.7rem;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
 }
-[data-theme='dark'] .blog-card:not(.has-cover) .book-badge { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-.book-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #b88e55;
-  text-transform: uppercase;
-}
-.blog-card.has-cover .book-badge { color: rgba(255, 255, 255, 0.75); }
 .book-title {
-  margin: 1.4rem 0 0;
+  margin: 0;
   font-family: 'Nanum Myeongjo', serif;
   font-weight: 700;
-  font-size: 1.3rem;
-  line-height: 1.55;
+  font-size: 1.6rem;
+  line-height: 1.5;
   color: var(--fg);
   word-break: keep-all;
   display: -webkit-box;
@@ -214,8 +210,27 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
   overflow: hidden;
 }
 .blog-card.has-cover .book-title { color: #fff; }
-.book-meta { margin-top: auto; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; }
+.book-meta { margin-top: 0.9rem; font-size: 0.95rem; color: var(--muted); letter-spacing: 0.05em; }
 .blog-card.has-cover .book-meta { color: rgba(255, 255, 255, 0.85); }
+/* 글 목록 정렬 토글: 목록과 같은 폭(--read-w)에서 오른쪽 끝에 텍스트 버튼으로 */
+.sort-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
+  max-width: var(--read-w);
+  margin: 0 0 1.4rem;
+}
+.sort-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 0.2rem 0;
+}
+.sort-btn.is-active { color: var(--fg); font-weight: 700; }
 .post-list {
   display: flex;
   flex-direction: column;

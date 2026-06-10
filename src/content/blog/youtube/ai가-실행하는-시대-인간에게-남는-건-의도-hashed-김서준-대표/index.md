@@ -1,6 +1,6 @@
 ---
 title: "AI가 실행하는 시대, 인간에게 남는 건 '의도' (Hashed 김서준 대표)"
-date: 2026-06-09
+date: 2026-06-09T09:00:00+09:00
 ---
 
 <div class="video-embed"><iframe src="https://www.youtube.com/embed/Wx0C42-S5z4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
