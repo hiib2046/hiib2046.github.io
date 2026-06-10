@@ -11,6 +11,8 @@ const blog = defineCollection({
       category: z.string().optional(), // 구조 A: 분류는 폴더 경로에서 도출. 평면 글만 이 필드 사용
       cover: image().optional(), // image() helper → 빌드 시 최적화·검증
       protected: z.boolean().optional(), // true면 빌드 시 본문을 공용 비번으로 암호화
+      video_id: z.string().optional(),   // yt 소스 글: 본문 위 유튜브 임베드 렌더용
+      kind: z.enum(['analytical', 'study-notes']).optional(), // 글 종류(사후수정 rules 선택용)
     }),
 });
 
