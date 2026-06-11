@@ -4,6 +4,8 @@ export const CATEGORY_NAMES: Record<string, string> = {
   youtube: 'YouTube',
   python: 'Python',
   'llm-wiki-세컨드브레인': 'LLM Wiki & 세컨드브레인',
+  ai: 'AI',
+  'llm-wiki': 'LLM Wiki',
 };
 
 export function categoryDisplayName(seg: string): string {

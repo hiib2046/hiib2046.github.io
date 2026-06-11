@@ -44,3 +44,17 @@ const { subs, posts } = Astro.props;
     </div>
   )
 }
+{
+  subs.length === 0 && posts.length === 0 && (
+    <p class="empty-cat">아직 글이 없습니다.</p>
+  )
+}
+
+<style>
+  .empty-cat {
+    width: 100%;
+    max-width: var(--read-w);
+    margin: 3rem 0 5rem;
+    color: var(--muted);
+  }
+</style>

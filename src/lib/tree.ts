@@ -15,6 +15,21 @@ function emptyNode(name: string, path: string[]): CatNode {
   return { name, path, children: new Map(), posts: [] };
 }
 
+// 글이 아직 없어도 존재해야 하는 카테고리(선언형). 트리에 빈 노드로 자리만 만들어,
+// 글 0개여도 카드가 뜨고 들어가면 "비었음"을 보여준다.
+const DECLARED_CATEGORIES: string[][] = [['ai', 'llm-wiki']];
+
+// 경로 조각들을 따라 내려가며 없는 노드를 만든다(있으면 그대로 둠).
+function ensurePath(root: CatNode, segs: string[]): void {
+  let node = root;
+  const acc: string[] = [];
+  for (const seg of segs) {
+    acc.push(seg);
+    if (!node.children.has(seg)) node.children.set(seg, emptyNode(seg, [...acc]));
+    node = node.children.get(seg)!;
+  }
+}
+
 // 글 id(= 폴더 경로, 예 "zz-AI/에이전트/agent-loop")에서 분류 경로를 떼어 트리를 쌓는다.
 // 마지막 조각은 글 자신의 slug이므로 분류 경로는 그 앞까지.
 export async function buildTree(): Promise<CatNode> {
@@ -33,6 +48,8 @@ export async function buildTree(): Promise<CatNode> {
     }
     node.posts.push(post);
   }
+  // 선언형 카테고리를 빈 노드로 보장(글이 그 안에 생기면 위 루프가 이미 채웠으니 무해)
+  for (const segs of DECLARED_CATEGORIES) ensurePath(root, segs);
   return root;
 }
 
