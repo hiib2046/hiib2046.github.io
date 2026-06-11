@@ -3,6 +3,7 @@ import type { CatNode } from '../lib/tree';
 import { countPosts } from '../lib/tree';
 import { isCategoryLocked } from '../lib/locked';
 import { categoryDisplayName } from '../lib/category-names';
+import { categoryCover } from '../lib/category-covers';
 
 interface Props {
   node: CatNode;
@@ -13,8 +14,14 @@ const href = `/category/${node.path.join('/')}/`;
 const count = countPosts(node);
 const cleanName = categoryDisplayName(node.name);
 const locked = isCategoryLocked(node.path);
+const cover = categoryCover(node.name);
 ---
-<a class="blog-card" href={href} title={node.name}>
+<a
+  class:list={['blog-card', cover && 'has-cover']}
+  href={href}
+  title={node.name}
+  style={cover ? `background-image: url('${cover}')` : undefined}
+>
   {locked && (
     <svg
       class="book-lock"
