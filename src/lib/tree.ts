@@ -71,8 +71,21 @@ export function countPosts(node: CatNode): number {
   return n;
 }
 
-// 최상위 분류들(사이드바용)
+// 루트 카테고리 표시 순서(명시적). 여기 있는 건 이 순서대로 앞에,
+// 없는 카테고리는 뒤에 이름 알파벳순으로 붙는다 — 글 유무·선언형 여부와 무관하게 고정.
+const CATEGORY_ORDER: string[] = ['ai', 'youtube'];
+
+// 최상위 분류들(홈·사이드바용). CATEGORY_ORDER로 정렬.
 export async function topCategories(): Promise<CatNode[]> {
   const root = await buildTree();
-  return [...root.children.values()];
+  const cats = [...root.children.values()];
+  return cats.sort((a, b) => {
+    const ia = CATEGORY_ORDER.indexOf(a.name);
+    const ib = CATEGORY_ORDER.indexOf(b.name);
+    // 둘 다 미지정이면 이름순, 한쪽만 지정이면 지정된 쪽이 앞, 둘 다 지정이면 배열 순서.
+    if (ia === -1 && ib === -1) return a.name.localeCompare(b.name);
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
 }
