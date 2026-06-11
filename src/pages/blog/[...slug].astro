@@ -15,6 +15,9 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+// 사이드바 활성 표시용 루트 카테고리: post.id가 "youtube/글-slug" 꼴이라 맨 앞 조각이 최상위 분류.
+// (글 frontmatter엔 category가 없어 post.data.category는 undefined → 폴더 경로에서 직접 뽑는다)
+const rootCategory = post.id.split('/')[0];
 const { Content } = await render(post);
 const cover = post.data.cover;
 const videoId = post.data.video_id;
@@ -47,7 +50,7 @@ if (isProtected) {
   enc = encryptHtml(html, password);
 }
 ---
-<BaseLayout title={post.data.title} activeCategory={post.data.category}>
+<BaseLayout title={post.data.title} activeCategory={rootCategory}>
   <header
     class={cover ? 'post-hero has-cover' : 'post-hero'}
     style={cover
