@@ -50,6 +50,25 @@ html[data-nav='closed'] .sidebar { margin-left: calc(-1 * var(--sidebar-w)); }
   transition: left 0.25s ease;
 }
 html[data-nav='closed'] .nav-toggle { left: 0.7rem; }
+/* 사이드바 상단 브랜드: 블로그 제목 겸 홈 링크(명조). 전역 a의 gold를 눌러 평소엔 본문색, 호버 시 gold.
+   토글 버튼(top:0.9rem, 높이 2.2rem)과 같은 줄·세로중심에 맞춘다: 패딩 2.5rem에서 1.6rem 끌어올려 top 0.9rem 선으로. */
+.brand {
+  font-family: 'Nanum Myeongjo', serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-decoration: none;
+  height: 2.2rem;
+  margin-top: -1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.6rem;
+}
+/* 집 아이콘은 제목보다 살짝 작게·옅게 — 텍스트가 주인공, 아이콘은 보조 신호 */
+.brand-icon { flex: none; opacity: 0.85; }
+.brand:hover { color: var(--gold); }
 .cats { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1rem; }
 .cat { color: var(--muted); text-decoration: none; padding: 0.3rem 0.6rem; border-left: 3px solid transparent; }
 .cat.active { color: var(--fg); border-left-color: var(--gold); }
@@ -75,6 +94,11 @@ h1, h2, h3 { font-family: 'Nanum Myeongjo', serif; font-weight: 700; line-height
 img { max-width: 100%; height: auto; }
 /* 본문 단락만 브런치 톤: 줄간격 2.0·자간 0.8px (날짜 .post-meta는 제외) */
 article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
+/* 섹션 제목 위 간격: 새 섹션이 시작될 때 숨 쉴 공간을 둬 글 흐름을 끊어준다(전 글 공통). */
+article h2 { margin-top: 3.6rem; margin-bottom: 1.1rem; }
+article h3 { margin-top: 2.4rem; margin-bottom: 0.8rem; }
+/* 첫 제목이 본문 맨 앞이면 과한 윗간격 제거 */
+article > h2:first-child, article > h3:first-child { margin-top: 0; }
 /* 글 상단 헤더: cover 유무와 무관하게 같은 양식(풀폭·중앙정렬·같은 높이).
    cover 있으면 배경 이미지, 없으면 옅은 빈 배경 — 제목 위치는 동일하게 유지 */
 .content > .post-hero {

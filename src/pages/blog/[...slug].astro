@@ -4,6 +4,7 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { encryptHtml } from '../../lib/encrypt';
 import { isPostLocked } from '../../lib/locked';
+import { categoryDisplayName } from '../../lib/category-names';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -18,6 +19,10 @@ const { post } = Astro.props;
 // 사이드바 활성 표시용 루트 카테고리: post.id가 "youtube/글-slug" 꼴이라 맨 앞 조각이 최상위 분류.
 // (글 frontmatter엔 category가 없어 post.data.category는 undefined → 폴더 경로에서 직접 뽑는다)
 const rootCategory = post.id.split('/')[0];
+// 이 글이 속한 목록(바로 위 분류)으로 돌아가는 링크: post.id에서 마지막(글 slug)만 떼면 분류 경로.
+const catSegs = post.id.split('/').slice(0, -1);
+const backName = catSegs.length ? categoryDisplayName(catSegs[catSegs.length - 1]) : '';
+const backHref = catSegs.length ? `/category/${catSegs.join('/')}/` : '/';
 const { Content } = await render(post);
 const cover = post.data.cover;
 const videoId = post.data.video_id;
@@ -62,6 +67,11 @@ if (isProtected) {
       <p class="post-meta">{dateStr}{post.data.category ? ` · ${post.data.category}` : ''}</p>
     </div>
   </header>
+  {backName && (
+    <nav class="crumb">
+      <a href={backHref}>← {backName}</a>
+    </nav>
+  )}
   {
     isProtected ? (
       <article class="locked" data-salt={enc!.salt} data-iv={enc!.iv} data-payload={enc!.data}>
