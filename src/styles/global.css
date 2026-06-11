@@ -39,18 +39,27 @@ body {
 }
 /* 접힘: 사이드바를 폭만큼 왼쪽으로 밀어 숨기고, 본문이 그 자리를 차지 */
 html[data-nav='closed'] .sidebar { margin-left: calc(-1 * var(--sidebar-w)); }
-/* 토글 버튼: 사이드바 바깥(좌상단)에 고정 — 닫아도 다시 열 수 있게 */
+/* 토글 버튼: 사이드바 오른쪽 경계에 걸쳐 패널과 함께 이동(Notion식).
+   접히면 사이드바가 사라지므로 화면 왼쪽 끝으로 옮겨 다시 열 수 있게 한다.
+   left 트랜지션을 사이드바 margin-left(0.25s)와 맞춰 같이 미끄러지게 함 */
 .nav-toggle {
-  position: fixed; top: 0.7rem; left: 0.7rem; z-index: 20;
+  position: fixed; top: 0.9rem; left: calc(var(--sidebar-w) - 2.2rem - 0.7rem); z-index: 30;
   width: 2.2rem; height: 2.2rem; border-radius: 4px; cursor: pointer;
   background: var(--bg); border: 1px solid var(--border); color: var(--fg);
-  font-size: 1rem; line-height: 1;
   display: flex; align-items: center; justify-content: center;
+  transition: left 0.25s ease;
 }
+html[data-nav='closed'] .nav-toggle { left: 0.7rem; }
 .cats { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1rem; }
 .cat { color: var(--muted); text-decoration: none; padding: 0.3rem 0.6rem; border-left: 3px solid transparent; }
 .cat.active { color: var(--fg); border-left-color: var(--gold); }
-.toggle { margin-top: auto; background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.5rem; cursor: pointer; border-radius: 4px; font-family: inherit; }
+/* 테마 토글: 햄버거(좌상단)와 대칭으로 우상단에 고정 — 사이드바를 접어도 항상 보이게 */
+.toggle {
+  position: fixed; top: 0.7rem; right: 0.7rem; z-index: 20;
+  width: 2.2rem; height: 2.2rem; border-radius: 4px; cursor: pointer;
+  background: var(--bg); border: 1px solid var(--border); color: var(--fg);
+  display: flex; align-items: center; justify-content: center;
+}
 /* min-width:0 — flex 아이템 기본값 min-width:auto면 카드장 같은 넓은 자식이 본문을 콘텐츠 폭만큼
    부풀려 가로 스크롤을 죽인다. 0으로 눌러 본문을 제 폭에 가두고 넘침은 안쪽이 스크롤로 처리한다. */
 .content { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; padding: 6rem 2rem; }
@@ -179,13 +188,9 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
   background-image: url('/covers/default-cover-dark.png');
 }
 .blog-card.has-cover { background-size: cover; background-position: center; border-left: none !important; }
-.blog-card.has-cover::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.78) 100%);
-  z-index: 1;
-}
+/* 표지 위 흰 글자 가독: 어둠 막 대신 글자 뒤에만 옅은 그림자(밝은 표지에서도 읽히게) */
+.blog-card.has-cover .book-title,
+.blog-card.has-cover .book-meta { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); }
 .book-title, .book-meta, .book-lock { position: relative; z-index: 4; }
 .book-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .book-lock {
@@ -218,9 +223,10 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
 .content.list-content .home { max-width: 980px; } /* .content>* 의 740 제한을 루트에서만 푼다(카드 여러 줄 대비) */
 .home-head { text-align: center; }
 .home-title { margin: 0; font-size: 2.4rem; letter-spacing: 0.04em; }
-.home-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
-.home-grid .blog-card { border-left: 1px solid #e8e4da; }
-[data-theme='dark'] .home-grid .blog-card { border-left: 1px solid #262625; }
+.home-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; }
+/* 홈 카드: 보더 제거 — 어두운 표지끼리 밝은 테두리선 없이 이음새 없게 붙인다 */
+.home-grid .blog-card { border: none; }
+[data-theme='dark'] .home-grid .blog-card { border: none; }
 /* 글 목록 정렬 토글: 목록과 같은 폭(--read-w)에서 오른쪽 끝에 텍스트 버튼으로 */
 .sort-toggle {
   display: flex;

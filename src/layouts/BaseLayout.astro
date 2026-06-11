@@ -33,7 +33,8 @@ const categories = await topCategories();
     </script>
   </head>
   <body>
-    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="메뉴 열기/닫기">☰</button>
+    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="메뉴 접기"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button id="theme-toggle" class="toggle" type="button" aria-label="다크 모드로 전환"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
     <div class="layout">
       <aside class="sidebar">
         <nav class="cats">
@@ -48,7 +49,6 @@ const categories = await topCategories();
             ))
           }
         </nav>
-        <button id="theme-toggle" class="toggle" type="button">다크모드</button>
       </aside>
       <main class:list={['content', { 'list-content': isList }]}>
         <slot />
@@ -57,20 +57,42 @@ const categories = await topCategories();
     <script>
       // 토글: 현재 테마를 뒤집어 html[data-theme]와 localStorage에 반영(새로고침에도 유지)
       const btn = document.getElementById('theme-toggle');
+      // 라인 아이콘(currentColor라 테마색 따라감): 다크면 해(누르면 밝아짐), 라이트면 달(누르면 어두워짐)
+      const SVG = 'xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+      const SUN = `<svg ${SVG}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+      const MOON = `<svg ${SVG}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+      // 현재 테마에 맞춰 아이콘·라벨 동기화
+      const syncToggle = (theme) => {
+        const dark = theme === 'dark';
+        btn.innerHTML = dark ? SUN : MOON;
+        btn.setAttribute('aria-label', dark ? '라이트 모드로 전환' : '다크 모드로 전환');
+      };
+      if (btn) syncToggle(document.documentElement.dataset.theme);
       btn?.addEventListener('click', () => {
         const next =
           document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = next;
         localStorage.setItem('theme', next);
+        syncToggle(next);
       });
 
       // 사이드바 접기/펴기 토글 (상태를 localStorage에 저장해 새로고침에도 유지)
       const navBtn = document.getElementById('nav-toggle');
+      const CHEVRON_LEFT = `<svg ${SVG}><path d="m15 18-6-6 6-6"/></svg>`;
+      const CHEVRON_RIGHT = `<svg ${SVG}><path d="m9 18 6-6-6-6"/></svg>`;
+      // 사이드바 상태에 맞춰 화살표·라벨 동기화: 열림이면 접기(‹), 닫힘이면 펼치기(›)
+      const syncNav = (nav) => {
+        const closed = nav === 'closed';
+        navBtn.innerHTML = closed ? CHEVRON_RIGHT : CHEVRON_LEFT;
+        navBtn.setAttribute('aria-label', closed ? '메뉴 펼치기' : '메뉴 접기');
+      };
+      if (navBtn) syncNav(document.documentElement.dataset.nav);
       navBtn?.addEventListener('click', () => {
         const next =
           document.documentElement.dataset.nav === 'closed' ? 'open' : 'closed';
         document.documentElement.dataset.nav = next;
         localStorage.setItem('nav', next);
+        syncNav(next);
       });
     </script>
   </body>
