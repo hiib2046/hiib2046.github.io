@@ -305,6 +305,17 @@ article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
   color: var(--border);
   font-weight: 400;
 }
+/* 검수 완료 배지: 날짜 오른쪽 gold 테두리 알약. 잠금 카테고리는 목록을 암호화 후
+   클라이언트에서 주입하므로 스코프 스타일 대신 전역 규칙으로 둬야 주입된 배지에도 적용된다. */
+.reviewed-badge {
+  font-size: 0.68rem;
+  font-weight: 450;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+  line-height: 1.4;
+}
 
 /* 우측 썸네일 이미지 영역 (호버 시 크기 변화 모션 완전 제거) */
 .post-item-thumb {

@@ -13,6 +13,7 @@ const blog = defineCollection({
       protected: z.boolean().optional(), // true면 빌드 시 본문을 공용 비번으로 암호화
       video_id: z.string().optional(),   // yt 소스 글: 본문 위 유튜브 임베드 렌더용
       kind: z.enum(['analytical', 'study-notes']).optional(), // 글 종류(사후수정 rules 선택용)
+      reviewed: z.boolean().optional(), // true면 목록에 "검수 완료" 배지 — 직접 끝까지 확인한 글 표시
     }),
 });
 

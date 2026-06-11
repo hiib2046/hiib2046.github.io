@@ -16,6 +16,8 @@ const dateStr = post.data.date.toLocaleDateString('ko-KR', {
 const cover = post.data.cover;
 // 잠금 글: 발췌·썸네일을 내보내지 않는다(본문 일부라도 새면 안 됨)
 const isLocked = post.data.protected === true;
+// 직접 끝까지 확인한 글 표시(frontmatter reviewed: true). 없으면 미표시.
+const reviewed = post.data.reviewed === true;
 // 설명: frontmatter에 없으면 본문 앞부분에서 마크업을 걷어내 발췌.
 // HTML 태그(맨 위 영상 임베드 iframe 등)를 먼저 지워야 발췌에 코드가 노출되지 않는다.
 const description = isLocked
@@ -46,6 +48,7 @@ const category = categoryDisplayName(rawCategory);
       <span>{category || 'ESSAY'}</span>
       <span class="sep">·</span>
       <span>{dateStr}</span>
+      {reviewed && <span class="reviewed-badge">검수 완료</span>}
     </div>
   </div>
   {!isLocked && cover && (
