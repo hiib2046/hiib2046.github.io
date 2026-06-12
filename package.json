@@ -14,6 +14,8 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^6.4.4"
+    "astro": "^6.4.4",
+    "photoswipe": "^5.4.4",
+    "rehype-attr": "^4.1.3"
   }
 }

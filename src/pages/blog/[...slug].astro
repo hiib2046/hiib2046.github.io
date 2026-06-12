@@ -103,5 +103,9 @@ if (isProtected) {
 
 <script>
   import { initLockGate } from '../../scripts/lock-gate';
+  import { initImageZoom } from '../../scripts/image-zoom';
   initLockGate();
+  // 일반 글: 로드 시 바로 / 잠금 글: 본문이 주입된 뒤 다시 이미지 줌 초기화
+  initImageZoom();
+  document.addEventListener('lock:content-loaded', initImageZoom);
 </script>

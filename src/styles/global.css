@@ -9,7 +9,7 @@
 }
 [data-theme='dark'] {
   --bg: #1a1a1a;
-  --fg: #e8e8e6;
+  --fg: #d6d2c8;
   --muted: #9a9a96;
   --gold: #cfa75e;
   --border: #2c2c2c;
@@ -90,8 +90,17 @@ html[data-nav='closed'] .toggle { left: calc(0.7rem + 2.2rem + 0.4rem); }
 .content.list-content { justify-content: center; min-height: calc(100vh - 12rem); }
 .content > * { width: 100%; max-width: var(--read-w); }
 a { color: var(--gold); }
+/* 다크모드: bold가 헤일레이션(밝은 글자 번짐)에 묻혀 약해 보여, 색을 순백으로 끌어올린다.
+   본문 #e8e8e6 → bold #fff. 굵기(700)는 그대로. */
+[data-theme='dark'] strong { color: #f0ede6; font-weight: 800; }
 h1, h2, h3 { font-family: 'Nanum Myeongjo', serif; font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
 img { max-width: 100%; height: auto; }
+/* 이미지 좌우 배치: 본문에서 <div class="img-row">로 감싼 이미지들을 한 줄에 나란히.
+   각 이미지는 마크다운 문법이라 <p>로 감싸지므로 그 <p>를 flex 칸으로 만든다.
+   화면이 좁으면(640px↓) 자동으로 위아래로 떨어진다. */
+.img-row { display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.img-row > p { flex: 1 1 0; min-width: 0; margin: 0; }
+@media (max-width: 640px) { .img-row > p { flex-basis: 100%; } }
 /* 본문 단락만 브런치 톤: 줄간격 2.0·자간 0.8px (날짜 .post-meta는 제외) */
 article p:not(.post-meta) { line-height: 2; letter-spacing: 0.8px; }
 /* 섹션 제목 위 간격: 새 섹션이 시작될 때 숨 쉴 공간을 둬 글 흐름을 끊어준다(전 글 공통). */
@@ -104,7 +113,7 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
 .content > .post-hero {
   max-width: none;
   width: calc(100% + 4rem);
-  margin: -3rem -2rem 2.5rem;   /* main의 상·좌·우 패딩을 상쇄해 풀폭+상단밀착 */
+  margin: -6rem -2rem 2.5rem;   /* main의 상(6rem)·좌·우(2rem) 패딩을 전부 상쇄해 풀폭+최상단까지 밀착 */
   min-height: 360px;
   background: transparent;      /* 빈 커버는 색 없이 본문 배경 그대로 */
   background-size: cover;
@@ -289,7 +298,7 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
   gap: 2.5rem;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 2.2rem 0.5rem;
+  padding: 1.3rem 0.5rem;
   text-decoration: none;
   border-bottom: 1px solid var(--border);
 }
