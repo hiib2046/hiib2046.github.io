@@ -1,5 +1,5 @@
 ---
-title: "너덜너덜해질 때까지 읽은 네 권"
+title: "뇌과학자가 너덜너덜해질 때까지 읽은 네 권"
 date: 2026-06-13T08:53:05+09:00
 kind: analytical
 video_id: pdh4lkZKT6A
