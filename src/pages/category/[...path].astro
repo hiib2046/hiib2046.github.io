@@ -29,7 +29,9 @@ const subs = [...node.children.values()];
 const posts = [...node.posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 // 잠긴 카테고리: 본문(하위 카드 + 글 목록) 전체를 빌드 시점에 암호화한다(목록조차 평문으로 남기지 않음).
-const locked = isCategoryLocked(pathArr);
+// dev 서버에서는 잠그지 않는다 — 모바일이 http+IP(비 secure context)로 접속하면 crypto.subtle 이
+// 없어 복호화 불가. 실제 배포(HTTPS)에서만 잠근다. (blog/[...slug].astro 와 동일한 이유)
+const locked = isCategoryLocked(pathArr) && import.meta.env.PROD;
 let enc = null;
 if (locked) {
   const password = import.meta.env.BLOG_PROTECT_PASSWORD;

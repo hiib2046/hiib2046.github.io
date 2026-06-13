@@ -40,7 +40,9 @@ const dateStr = post.data.date.toLocaleString('ko-KR', {
 });
 
 // 잠금 글: 글 자체 표시(protected) 또는 잠긴 카테고리 소속이면 본문 HTML을 빌드 시점에 암호화한다.
-const isProtected = post.data.protected === true || isPostLocked(post.id);
+// dev 서버(import.meta.env.PROD=false)에서는 잠그지 않는다 — 모바일이 http+IP(비 secure context)로
+// 접속하면 브라우저 crypto.subtle 이 없어 복호화가 불가능하기 때문. 실제 배포(HTTPS)에서만 잠근다.
+const isProtected = (post.data.protected === true || isPostLocked(post.id)) && import.meta.env.PROD;
 let enc = null;
 if (isProtected) {
   const password = import.meta.env.BLOG_PROTECT_PASSWORD;
