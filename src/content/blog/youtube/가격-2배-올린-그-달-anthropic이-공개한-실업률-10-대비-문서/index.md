@@ -3,6 +3,7 @@ title: "가격 2배 올린 그 달, Anthropic이 공개한 실업률 10% 대비 
 date: 2026-06-13T11:31:54+09:00
 kind: analytical
 video_id: CoqPWNF68gc
+reviewed: true
 ---
 
 페이블 5 가격표를 봤다면, 먼저 눈에 들어오는 숫자는 이것이다. 입력 100만 토큰에 10달러, 출력은 50달러. 오퍼스 4.8에 정확히 2배다.
