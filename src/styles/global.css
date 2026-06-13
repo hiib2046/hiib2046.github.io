@@ -179,9 +179,13 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   cursor: grab;
+  /* 카드 단위 스냅: 화살표·스와이프·드래그 어느 방식이든 카드 경계에 딱 붙어 멈춘다.
+     스냅 기준선은 카드 시작선(위 padding-left)과 일치시켜야 첫 카드가 제 위치에 선다. */
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: max(0px, calc(50% - var(--read-w) / 2));
 }
-/* 마우스로 끌어 스크롤하는 동안: 커서 표시 + 부드러운 스크롤 끔(드래그가 즉시 따라오게) */
-.cat-grid.dragging { cursor: grabbing; scroll-behavior: auto; }
+/* 마우스로 끌어 스크롤하는 동안: 커서 표시 + 부드러운 스크롤·스냅 끔(드래그가 즉시 따라오게) */
+.cat-grid.dragging { cursor: grabbing; scroll-behavior: auto; scroll-snap-type: none; }
 .cat-grid::-webkit-scrollbar { display: none; }
 /* 카드장 좌우 넘김 화살표 — 카드가 화면을 넘칠 때만 표시(JS가 hidden 토글) */
 .cat-nav {
@@ -212,6 +216,7 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
 .blog-card {
   flex: 0 0 440px;
   height: 530px;
+  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -223,21 +228,13 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
   box-sizing: border-box;
   background: #f6f4ed;
   border: none;
-  border-top: 1px solid #e8e4da;
-  border-bottom: 1px solid #e8e4da;
-  border-right: 1px solid #e8e4da;
   border-radius: 0;
   box-shadow: none;
   transition: background-color 0.3s ease;
 }
-.cat-grid > a.blog-card:first-of-type { border-left: 1px solid #e8e4da; }
 [data-theme='dark'] .blog-card {
   background: #161616;
-  border-top: 1px solid #262625;
-  border-bottom: 1px solid #262625;
-  border-right: 1px solid #262625;
 }
-[data-theme='dark'] .cat-grid > a.blog-card:first-of-type { border-left: 1px solid #262625; }
 /* 기본 표지(cover 없는 카드): 공통 기본 이미지 — 라이트/다크 분기 */
 .blog-card:not(.has-cover) {
   background-image: url('/covers/default-cover-light.png');
@@ -247,7 +244,7 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
 [data-theme='dark'] .blog-card:not(.has-cover) {
   background-image: url('/covers/default-cover-dark.png');
 }
-.blog-card.has-cover { background-size: cover; background-position: center; border-left: none !important; }
+.blog-card.has-cover { background-size: cover; background-position: center; }
 /* 다크 막(scrim): 컬러풀·복잡한 표지 위에 어둠막을 깔아 흰 글자가 어디서나 읽히게(카테고리별 on/off).
    글자(z-index:4) 아래, 배경 위(z-index:1)에 깐다. */
 .blog-card.has-cover.cover-scrim::before {
