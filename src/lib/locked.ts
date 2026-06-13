@@ -3,7 +3,7 @@
  * 여기에 적은 카테고리(폴더 경로)와 그 하위의 모든 글·목록이 공용 비번으로 잠긴다.
  * 잠금 추가/해제는 이 배열만 고치면 된다. 경로는 글 폴더명 규칙(소문자)과 같게 적는다.
  */
-export const LOCKED_CATEGORIES: string[] = ['youtube'];
+export const LOCKED_CATEGORIES: string[] = ['youtube', '강의'];
 
 // 경로(조각 배열)가 잠긴 카테고리이거나 그 하위인가
 export function isCategoryLocked(segs: string[]): boolean {

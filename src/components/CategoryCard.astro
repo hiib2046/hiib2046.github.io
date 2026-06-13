@@ -3,7 +3,12 @@ import type { CatNode } from '../lib/tree';
 import { countPosts } from '../lib/tree';
 import { isCategoryLocked } from '../lib/locked';
 import { categoryDisplayName } from '../lib/category-names';
-import { categoryCover } from '../lib/category-covers';
+import {
+  categoryCover,
+  categoryCoverPosition,
+  categoryCoverText,
+  categoryCoverScrim,
+} from '../lib/category-covers';
 
 interface Props {
   node: CatNode;
@@ -15,12 +20,22 @@ const count = countPosts(node);
 const cleanName = categoryDisplayName(node.name);
 const locked = isCategoryLocked(node.path);
 const cover = categoryCover(node.name);
+const coverPos = categoryCoverPosition(node.name);
+const coverText = categoryCoverText(node.name);
+const coverScrim = categoryCoverScrim(node.name);
 ---
 <a
-  class:list={['blog-card', cover && 'has-cover']}
+  class:list={[
+    'blog-card',
+    cover && 'has-cover',
+    coverText === 'dark' && 'text-dark',
+    coverScrim && 'cover-scrim',
+  ]}
   href={href}
   title={node.name}
-  style={cover ? `background-image: url('${cover}')` : undefined}
+  style={cover
+    ? `background-image: url('${cover}')${coverPos ? `; background-position: ${coverPos}` : ''}`
+    : undefined}
 >
   {locked && (
     <svg

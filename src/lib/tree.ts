@@ -17,7 +17,10 @@ function emptyNode(name: string, path: string[]): CatNode {
 
 // 글이 아직 없어도 존재해야 하는 카테고리(선언형). 트리에 빈 노드로 자리만 만들어,
 // 글 0개여도 카드가 뜨고 들어가면 "비었음"을 보여준다.
-const DECLARED_CATEGORIES: string[][] = [['ai', 'llm-wiki']];
+const DECLARED_CATEGORIES: string[][] = [
+  ['ai', 'llm-wiki'],
+  ['강의', '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-A-to-Z'],
+];
 
 // 경로 조각들을 따라 내려가며 없는 노드를 만든다(있으면 그대로 둠).
 function ensurePath(root: CatNode, segs: string[]): void {
@@ -73,7 +76,7 @@ export function countPosts(node: CatNode): number {
 
 // 루트 카테고리 표시 순서(명시적). 여기 있는 건 이 순서대로 앞에,
 // 없는 카테고리는 뒤에 이름 알파벳순으로 붙는다 — 글 유무·선언형 여부와 무관하게 고정.
-const CATEGORY_ORDER: string[] = ['ai', 'youtube'];
+const CATEGORY_ORDER: string[] = ['ai', 'youtube', '강의'];
 
 // 최상위 분류들(홈·사이드바용). CATEGORY_ORDER로 정렬.
 export async function topCategories(): Promise<CatNode[]> {

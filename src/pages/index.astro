@@ -6,12 +6,20 @@ import { topCategories } from '../lib/tree';
 const cats = await topCategories();
 ---
 <BaseLayout title="hiib2046's blog" isList={true}>
-  <div class="home">
-    <header class="home-head">
-      <h1 class="home-title">hiib2046's blog</h1>
-    </header>
-    <div class="home-grid">
+  <header class="home-head">
+    <h1 class="home-title">hiib2046's blog</h1>
+  </header>
+  <div class="cat-grid-wrap">
+    <button class="cat-nav cat-nav-prev" type="button" aria-label="이전 카드" hidden>‹</button>
+    <div class="cat-grid">
       {cats.map((c) => <CategoryCard node={c} />)}
     </div>
+    <button class="cat-nav cat-nav-next" type="button" aria-label="다음 카드" hidden>›</button>
   </div>
 </BaseLayout>
+
+<script>
+  // 홈도 카테고리 페이지와 동일한 가로 카드장 — 드래그 스크롤 + 좌우 화살표 토글 초기화
+  import { initCatGrids } from '../scripts/cat-grid';
+  initCatGrids();
+</script>

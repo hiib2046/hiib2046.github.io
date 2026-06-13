@@ -6,6 +6,8 @@ export const CATEGORY_NAMES: Record<string, string> = {
   'llm-wiki-세컨드브레인': 'LLM Wiki & 세컨드브레인',
   ai: 'AI',
   'llm-wiki': 'LLM Wiki',
+  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-A-to-Z':
+    '랄프톤 1위 개발자가 알려주는 실전 하네스 엔지니어링 A to Z (with. Claude Code, Codex)',
 };
 
 export function categoryDisplayName(seg: string): string {

@@ -226,6 +226,15 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
   background-image: url('/covers/default-cover-dark.png');
 }
 .blog-card.has-cover { background-size: cover; background-position: center; border-left: none !important; }
+/* 다크 막(scrim): 컬러풀·복잡한 표지 위에 어둠막을 깔아 흰 글자가 어디서나 읽히게(카테고리별 on/off).
+   글자(z-index:4) 아래, 배경 위(z-index:1)에 깐다. */
+.blog-card.has-cover.cover-scrim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.28));
+  z-index: 1;
+}
 /* 표지 위 흰 글자 가독: 어둠 막 대신 글자 뒤에만 옅은 그림자(밝은 표지에서도 읽히게) */
 .blog-card.has-cover .book-title,
 .blog-card.has-cover .book-meta { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); }
@@ -255,16 +264,14 @@ article > h2:first-child, article > h3:first-child { margin-top: 0; }
 .blog-card.has-cover .book-title { color: #fff; }
 .book-meta { margin-top: 0.9rem; font-size: 0.95rem; color: var(--muted); letter-spacing: 0.05em; }
 .blog-card.has-cover .book-meta { color: rgba(255, 255, 255, 0.85); }
-/* 루트(홈): 카테고리 페이지의 가로 카드장과 분리 — 화면폭에 휘둘리던 padding-left 카드장 대신
-   카드를 중앙 그리드로 펼친다. 위에 블로그 제목·소개를 둬 첫인상과 휑함을 보완한다. */
-.home { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2.6rem; }
-.content.list-content .home { max-width: 980px; } /* .content>* 의 740 제한을 루트에서만 푼다(카드 여러 줄 대비) */
-.home-head { text-align: center; }
+/* 밝은 표지 카드: 흰 글자가 안 읽힐 때 검정 글자 + 흰 글로우로 전환(카테고리별 지정) */
+.blog-card.has-cover.text-dark .book-title { color: #1a1a1a; }
+.blog-card.has-cover.text-dark .book-meta { color: rgba(0, 0, 0, 0.65); }
+.blog-card.has-cover.text-dark .book-title,
+.blog-card.has-cover.text-dark .book-meta { text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9); }
+/* 루트(홈): 카테고리 페이지와 동일한 가로 카드장(.cat-grid-wrap)을 쓴다. 위에 블로그 제목 헤더만 둔다. */
+.home-head { text-align: center; margin-bottom: 2rem; }
 .home-title { margin: 0; font-size: 2.4rem; letter-spacing: 0.04em; }
-.home-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; }
-/* 홈 카드: 보더 제거 — 어두운 표지끼리 밝은 테두리선 없이 이음새 없게 붙인다 */
-.home-grid .blog-card { border: none; }
-[data-theme='dark'] .home-grid .blog-card { border: none; }
 /* 글 목록 정렬 토글: 목록과 같은 폭(--read-w)에서 오른쪽 끝에 텍스트 버튼으로 */
 .sort-toggle {
   display: flex;
