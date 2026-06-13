@@ -459,11 +459,14 @@ article th {
   font-weight: 700;
   padding: 0.7rem 0.9rem;
   border-bottom: 2px solid var(--fg);
+  /* 한글을 단어처럼 다뤄 띄어쓰기에서만 줄바꿈 — 좁은 칸에서 '입력'이 '입/력'으로 쪼개지는 것을 막는다. */
+  word-break: keep-all;
 }
 article td {
   padding: 0.7rem 0.9rem;
   border-bottom: 1px solid var(--border);
   vertical-align: top;
+  word-break: keep-all;
 }
 article tbody tr:last-child td { border-bottom: none; }
 

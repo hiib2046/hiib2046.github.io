@@ -6,7 +6,8 @@ export const CATEGORY_COVERS: Record<string, string> = {
   'llm-wiki-세컨드브레인': '/covers/llm-wiki.png',
   'llm-wiki': '/covers/llm-wiki.png',
   '강의': '/covers/lecture.png',
-  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-A-to-Z': '/covers/harness-engineering.png',
+  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z': '/covers/harness-engineering.png',
+  'part-1-하네스의-지도-어디에-무엇을-심을-것인가': '/covers/harness-engineering.png',
 };
 
 export function categoryCover(seg: string): string | undefined {
@@ -17,7 +18,8 @@ export function categoryCover(seg: string): string | undefined {
 // 카드(세로 0.83:1)보다 세로로 긴 표지는 cover 크롭 시 위·아래가 잘린다. 기본은 가운데(center)지만,
 // 중요한 내용이 위쪽에 몰린 표지는 'top'으로 잡아 윗부분이 보이게 한다. 매핑 없으면 center(CSS 기본).
 export const CATEGORY_COVER_POSITIONS: Record<string, string> = {
-  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-A-to-Z': 'top',
+  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z': 'top',
+  'part-1-하네스의-지도-어디에-무엇을-심을-것인가': 'top',
 };
 
 export function categoryCoverPosition(seg: string): string | undefined {
@@ -37,7 +39,8 @@ export function categoryCoverText(seg: string): 'light' | 'dark' | undefined {
 // 다크 막(scrim) on/off. 컬러풀·복잡해서 흰 글자가 묻히는 표지는 true로 잡아 어둠막을 깐다.
 // 막 위 글자는 흰색 단일(has-cover 기본). 매핑 없으면 막 없음.
 export const CATEGORY_COVER_SCRIM: Record<string, boolean> = {
-  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-A-to-Z': true,
+  '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z': true,
+  'part-1-하네스의-지도-어디에-무엇을-심을-것인가': true,
 };
 
 export function categoryCoverScrim(seg: string): boolean {

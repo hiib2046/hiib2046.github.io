@@ -19,7 +19,7 @@ function emptyNode(name: string, path: string[]): CatNode {
 // 글 0개여도 카드가 뜨고 들어가면 "비었음"을 보여준다.
 const DECLARED_CATEGORIES: string[][] = [
   ['ai', 'llm-wiki'],
-  ['강의', '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-A-to-Z'],
+  ['강의', '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z'],
 ];
 
 // 경로 조각들을 따라 내려가며 없는 노드를 만든다(있으면 그대로 둠).
