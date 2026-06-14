@@ -3,7 +3,7 @@
  * 잠긴 글 페이지와 잠긴 카테고리 페이지가 공유한다. 한 번 통과한 비번은 localStorage 에 저장돼
  * 다른 잠긴 글·분류도 자동으로 열린다. 빌드 측 PBKDF2/AES-GCM 파라미터와 정확히 일치해야 한다.
  */
-const ITERATIONS = 600_000; // 빌드 측 encrypt.ts 와 동일
+const ITERATIONS = 1_200_000; // 빌드 측 encrypt.ts 와 동일
 const STORE_KEY = 'blog_pw';
 
 export function initLockGate(): void {

@@ -2,14 +2,14 @@
  * 잠금 글 본문 암호화 (빌드 시점, Node 전용)
  * - 입력: 렌더된 본문 HTML 문자열 + 공용 비밀번호
  * - 출력: base64로 인코딩된 salt / iv / data(암호문+인증태그)
- * - 알고리즘: PBKDF2-SHA256(600k) 로 키 유도 → AES-256-GCM 암호화
+ * - 알고리즘: PBKDF2-SHA256(1.2M) 로 키 유도 → AES-256-GCM 암호화
  *   (브라우저 WebCrypto 의 복호화와 파라미터를 정확히 맞춘다)
  * - 호출 주체: src/pages/blog/[...slug].astro
  */
 import crypto from 'node:crypto';
 
-// OWASP 권장치. 클라이언트 WebCrypto 의 iterations 와 반드시 동일해야 한다.
-const ITERATIONS = 600_000;
+// OWASP 권장치(600k) 의 2배. 클라이언트 WebCrypto 의 iterations 와 반드시 동일해야 한다.
+const ITERATIONS = 1_200_000;
 
 export interface EncryptedPayload {
   salt: string;
