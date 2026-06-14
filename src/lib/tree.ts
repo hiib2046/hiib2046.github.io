@@ -20,6 +20,7 @@ function emptyNode(name: string, path: string[]): CatNode {
 const DECLARED_CATEGORIES: string[][] = [
   ['ai', 'llm-wiki'],
   ['강의', '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z'],
+  ['youtube', 'zz-검수대기'],
 ];
 
 // 경로 조각들을 따라 내려가며 없는 노드를 만든다(있으면 그대로 둠).

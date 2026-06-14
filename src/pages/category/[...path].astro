@@ -25,7 +25,10 @@ export async function getStaticPaths() {
 const { pathArr } = Astro.props;
 const root = await buildTree();
 const node = findNode(root, pathArr)!;
-const subs = [...node.children.values()];
+// 정렬용 zz- 접두어가 붙은 분류(검수 대기 등 임시 보관소)는 항상 맨 뒤로. 그 외는 원래 순서 유지.
+const subs = [...node.children.values()].sort(
+  (a, b) => (a.name.startsWith('zz-') ? 1 : 0) - (b.name.startsWith('zz-') ? 1 : 0),
+);
 const posts = [...node.posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 // 잠긴 카테고리: 본문(하위 카드 + 글 목록) 전체를 빌드 시점에 암호화한다(목록조차 평문으로 남기지 않음).

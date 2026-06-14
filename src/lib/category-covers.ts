@@ -2,6 +2,7 @@
 // 없는 카테고리는 기본 표지(default-cover-*)를 쓴다.
 export const CATEGORY_COVERS: Record<string, string> = {
   youtube: '/covers/youtube.png',
+  검수대기: '/covers/review-pending.png',
   ai: '/covers/ai.png',
   'llm-wiki-세컨드브레인': '/covers/llm-wiki.png',
   'llm-wiki': '/covers/llm-wiki.png',
