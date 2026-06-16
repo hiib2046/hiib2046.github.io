@@ -7,6 +7,7 @@ export const CATEGORY_NAMES: Record<string, string> = {
   'llm-wiki-세컨드브레인': 'LLM Wiki & 세컨드브레인',
   ai: 'AI',
   'llm-wiki': 'LLM Wiki',
+  '하네스-엔지니어링': '하네스 엔지니어링',
   '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z':
     '랄프톤 1위 개발자가 알려주는 실전 하네스 엔지니어링 A to Z (with. Claude Code, Codex)',
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': 'Part 1. 하네스의 지도: 어디에 무엇을 심을 것인가',
