@@ -10,6 +10,8 @@ export const CATEGORY_COVERS: Record<string, string> = {
   '강의': '/covers/lecture.png',
   '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z': '/covers/harness-engineering.png',
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': '/covers/harness-engineering.png',
+  'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다': '/covers/harness-engineering.png',
+  'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나': '/covers/harness-engineering.png',
 };
 
 export function categoryCover(seg: string): string | undefined {
@@ -22,6 +24,8 @@ export function categoryCover(seg: string): string | undefined {
 export const CATEGORY_COVER_POSITIONS: Record<string, string> = {
   '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z': 'top',
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': 'top',
+  'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다': 'top',
+  'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나': 'top',
 };
 
 export function categoryCoverPosition(seg: string): string | undefined {
@@ -45,6 +49,8 @@ export function categoryCoverText(seg: string): 'light' | 'dark' | undefined {
 export const CATEGORY_COVER_SCRIM: Record<string, boolean> = {
   '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z': true,
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': true,
+  'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다': true,
+  'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나': true,
 };
 
 export function categoryCoverScrim(seg: string): boolean {

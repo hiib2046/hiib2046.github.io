@@ -11,6 +11,10 @@ export const CATEGORY_NAMES: Record<string, string> = {
   '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z':
     '랄프톤 1위 개발자가 알려주는 실전 하네스 엔지니어링 A to Z (with. Claude Code, Codex)',
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': 'Part 1. 하네스의 지도: 어디에 무엇을 심을 것인가',
+  'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다':
+    'Part 2. 잘 묻는 하네스: 좋은 질문이 좋은 하네스를 만든다',
+  'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나':
+    'Part 3. 문서형 하네스 프로젝트 : md만으로 어디까지 할 수 있나',
 };
 
 export function categoryDisplayName(seg: string): string {

@@ -20,6 +20,16 @@ function emptyNode(name: string, path: string[]): CatNode {
 const DECLARED_CATEGORIES: string[][] = [
   ['ai', 'llm-wiki'],
   ['강의', '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z'],
+  [
+    '강의',
+    '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z',
+    'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다',
+  ],
+  [
+    '강의',
+    '랄프톤-1위-개발자가-알려주는-실전-하네스-엔지니어링-a-to-z',
+    'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나',
+  ],
   ['youtube', 'zz-검수대기'],
 ];
 
