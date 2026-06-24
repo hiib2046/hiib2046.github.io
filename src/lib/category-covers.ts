@@ -12,6 +12,10 @@ export const CATEGORY_COVERS: Record<string, string> = {
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': '/covers/harness-engineering.png',
   'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다': '/covers/harness-engineering.png',
   'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나': '/covers/harness-engineering.png',
+  'part-4-분업형-하네스-프로젝트-메인-세션을-괴롭히지-않는-법': '/covers/harness-engineering.png',
+  '실리콘밸리-바이브코딩-상위-1-개발자의-10가지-바이브코딩-스킬-with-claude-code-codex':
+    '/covers/silicon-vibe-coding.png',
+  'part-1-claude-code-마스터하기': '/covers/silicon-vibe-coding.png',
 };
 
 export function categoryCover(seg: string): string | undefined {
@@ -26,6 +30,7 @@ export const CATEGORY_COVER_POSITIONS: Record<string, string> = {
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': 'top',
   'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다': 'top',
   'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나': 'top',
+  'part-4-분업형-하네스-프로젝트-메인-세션을-괴롭히지-않는-법': 'top',
 };
 
 export function categoryCoverPosition(seg: string): string | undefined {
@@ -51,6 +56,7 @@ export const CATEGORY_COVER_SCRIM: Record<string, boolean> = {
   'part-1-하네스의-지도-어디에-무엇을-심을-것인가': true,
   'part-2-잘-묻는-하네스-좋은-질문이-좋은-하네스를-만든다': true,
   'part-3-문서형-하네스-프로젝트-md만으로-어디까지-할-수-있나': true,
+  'part-4-분업형-하네스-프로젝트-메인-세션을-괴롭히지-않는-법': true,
 };
 
 export function categoryCoverScrim(seg: string): boolean {
