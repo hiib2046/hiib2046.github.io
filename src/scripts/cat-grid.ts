@@ -34,12 +34,18 @@ function setup(wrap: HTMLElement): void {
   let startX = 0;
   let startScroll = 0;
   let moved = 0;
+  let suppressClick = false;
   grid.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return; // 왼쪽 버튼만 드래그
     down = true;
     moved = 0;
     startX = e.pageX;
     startScroll = grid.scrollLeft;
+    suppressClick = false; // 새로 누를 때마다 초기화 — 직전 드래그가 남긴 차단 플래그가 이 클릭을 먹지 않게.
     grid.classList.add('dragging');
+    // 링크·이미지의 네이티브 드래그(와 텍스트 선택) 차단. 안 막으면 mouseup 대신 dragend가 와서
+    // down이 안 풀리고, 손을 떼도 커서를 계속 따라다닌다.
+    e.preventDefault();
   });
   window.addEventListener('mousemove', (e) => {
     if (!down) return;
@@ -51,14 +57,21 @@ function setup(wrap: HTMLElement): void {
     if (!down) return;
     down = false;
     grid.classList.remove('dragging');
-    if (moved > 5) {
-      const block = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-      };
-      grid.addEventListener('click', block, { capture: true, once: true });
-    }
+    // 끈 경우 그 직후 클릭 1회만 무효화 예약. 큰 드래그 뒤엔 브라우저가 click을 아예 안 쏘기도 하므로
+    // once 리스너로 두면 소비되지 못하고 남아 다음 클릭을 먹는다 → 영구 리스너 + 플래그로 처리하고,
+    // 안 쓰인 플래그는 다음 mousedown이 풀어준다.
+    if (moved > 5) suppressClick = true;
   });
+  grid.addEventListener(
+    'click',
+    (e) => {
+      if (!suppressClick) return;
+      e.preventDefault();
+      e.stopPropagation();
+      suppressClick = false;
+    },
+    { capture: true },
+  );
 
   update();
 }
